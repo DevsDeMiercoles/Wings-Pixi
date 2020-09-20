@@ -1,0 +1,123 @@
+
+Unify Controller and GUI
+Selection Area: http://i.imgur.com/PrlGKEm.jpg
+Selection Core area: takes priority over other areas. This allow selection area to be really big, to help controllers, but precise at the same time by using priority of smaller areas.
+
+Selection area does not change the current selection. Selection area does change the current selection.
+
+----
+Random
+Weighted random. A medida que van saliendo randoms, ir agregando un peso para que sea cada mas mas probable.
+2 usos.
+Uno es como dota, los skills que no se activan en una chance, cada vez tienen mas chance de activarse.
+La segunda es para mostrar un amplio 
+
+----
+Map with areas
+Micro loading. A veces no tiene sentido cambiar toda la scene entera. Y en lugar de tener un mapa gigante, se puede separar en chunks y actualizar cada chunk (y cercanos).
+En este caso solo se cambia de area sin cambiar de mapa (escena).
+http://www.sdltutorials.com/Data/Posts/95/7-area.png
+
+
+=========
+Physics
+
+Discrete (posteriori)
+Move -> check
+
+Continuous (priori)
+Simulate move -> check -> Move
+
+In the a posteriori case, we advance the physical simulation by a small time step, then check if any objects are intersecting, or are somehow so close to each other that we deem them to be intersecting. At each simulation step, a list of all intersecting bodies is created, and the positions and trajectories of these objects are somehow "fixed" to account for the collision. We say that this method is a posteriori because we typically miss the actual instant of collision, and only catch the collision after it has actually happened.
+Pros: In this case, the collision detection algorithm need not be aware of the myriad of physical variables; a simple list of physical bodies is fed to the algorithm, and the program returns a list of intersecting bodies. The collision detection algorithm doesn't need to understand friction, elastic collisions, or worse, nonelastic collisions and deformable bodies. In addition, the a posteriori algorithms are in effect one dimension simpler than the a priori algorithms. Indeed, an a priori algorithm must deal with the time variable, which is absent from the a posteriori problem.
+Cons: On the other hand, a posteriori algorithms cause problems in the "fixing" step, where intersections (which aren't physically correct) need to be corrected. Moreover, if the discrete step is too large, the collision could go undetected, resulting in an object which passes through another if it is sufficiently fast or small.
+
+In the a priori methods, we write a collision detection algorithm which will be able to predict very precisely the trajectories of the physical bodies. The instants of collision are calculated with high precision, and the physical bodies never actually interpenetrate. We call this a priori because we calculate the instants of collision before we update the configuration of the physical bodies.
+Pros: The benefits of the a priori algorithms are increased fidelity and stability. It is difficult (but not completely impossible) to separate the physical simulation from the collision detection algorithm. However, in all but the simplest cases, the problem of determining ahead of time when two bodies will collide (given some initial data) has no closed form solution—a numerical root finder is usually involved.
+
+BroadPhase:
+Spatial partitions: grid, quadtree, kdtree, bounding tree
+Bounding volume: circle, AABB, OBB
+
+----
+Collitions on demand
+
+Para elementos interactivos. No proporcionan respuestas de colisiones, no son revisadas automaticamente.
+Se piden manualmente para un area(punto). Por ejemplo un chest que se puede abrir o una escalera que se puede subir
+
+
+----
+Grupos de collisiones
+Decide que se compara con que, como se resuelve esa colision (distinta logica) y a quien se le pasa (a uno u ambos)
+
+3 Tipo basicos:
+
+Obstacle, no deja pasar. Es solido
+Body, es bloqueado por un obstaculo (Kinematic boy, se mueve para atras, si hay dos ambos retroceden segun % de velocidad. Static boy, no se mueve, como una pared. El static puede moverse con velocidad, pero no sufre cambios por colisiones, como una plataforma asensor)
+Hit box, afecta a otro
+Hurt box, recibe daño
+
+Es necesario poder crear propio tipo de colisiones, como por ejemplo "pusheable".
+
+Las colisiones tienen que poder tener condiciones. Como por ejemplo de un solo lado. (Pueden llamar a una funcion que valida la colision)
+
+Tipos de colisiones determinan la logica de colision y la resolucion de la colision
+
+....
+Algunas colisiones resoluciones pueden ser automaticas. Como por ejemplo body, que representa bloqueo fisico
+Rigid Body (kinematic, static)
+Trigger (triggers colicionan entre si, llaman a onTrigger)
+Hit box / Hurt box
+
+----
+Collision prevention  Physics -> Movement -> Wall correction
+CollisionDetector    (separar causa y sujeto, en lugar de doble collision [uno es quien hace daño y otro quien recibe])
+Collition Response 	(Real update, interactions)
+
+----
+Testear en eje x, correguir en eje
+Testear en eje y, correguir en eje
+
+En problema de testear entero, es no saber a donde corregir bien. 
+Al querer correguir una colision existente, lo que existe es: velocidad del objeto, vector de colision.
+
+El vector de colisiones no es conciente de sus alrededores y cuando hay dos pisos, suele hacer que se quede trabado en el medio. Gravedad + derecha, la colision se corrige por derecha por ser el menor vector de colision y despues arriba (una correcion por piso), con esto queda en el mismo lugar que empezo y no puede avanzar.
+El vector de collision no sirve para mover rectangulos, siempre deja borde con borde, sin importar como se estaba moviendo.
+
+Abria que moverlo algo en la velocidad que vino, pero si se mueve por la velocidad, se puede perder inersia de costado.
+Si bien frenarse de una es algo realista ante una fuerza, en juegos es una mierda. Se necesita un desliz, ya sea por slopes (bajada O subida) o al colisionar con una pared.
+
+Something shitee but works. Proyect colition vector into speed vector, that is the direction and amount to move out. Then text remaining distance and find the collition, x or y. Move the rest in the non colliding axis (to slide)
+
+----
+Collition query
+Permitir saber si cosas van a colisionar o no (projectar un futuro no existente).
+
+Ray casting	(Line of sight)
+Shape casting??? (es necesario?)
+
+----
+Update forces / impulses
+Move all that is movable
+Update Rigid bodies
+Collide triggers acording to masks
+
+
+
+
+for (;;) // main game loop
+{
+	g_hidManager->poll();
+	g_gameObjectManager->preAnimationUpdate(dt);
+	g_animationEngine->updateAnimations(dt);
+	g_gameObjectManager->postAnimationUpdate(dt);
+	g_physicsWorld->step(dt);
+	g_animationEngine->updateRagDolls(dt);
+	g_gameObjectManager->postPhysicsUpdate(dt);
+	g_animationEngine->finalize();
+	g_effectManager->update(dt);
+	g_audioEngine->udate(dt);
+	// etc.
+	g_renderManager->render();
+	dt = calcDeltaTime();
+}

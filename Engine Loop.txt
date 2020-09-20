@@ -1,0 +1,34 @@
+
+Game loop
+
+Async:
+Inputs -> Controller -> Action[]
+
+PreUpdate:
+Scene Messages
+World -> Update entities (actions / movement / AI)
+GUI
+
+Update:
+Scene -> collitions / Main game logic
+
+PostUpdate:
+Audio
+Animation
+
+
+Render:
+World
+Gui
+
+---------
+Problema:
+No hay forma de hacer culling
+No hay hud claro
+Malisima forma de interactuar mouse con mundo
+La logica de collisiones esta en el stage
+Se actualizan mil entities, mil veces. Hay llamados de mas para cosas que no les importa. Entity tiene que estar mejor dividido en responsabilidades (de sistemas). Por ejemplo una pared no tiene sentido que actualize ni controles ni movimiento, de hecho no actualiza nada, solo es utilizada para comprobar colisiones.
+
+---------
+Idea:
+Sistema de eventos del mundo (ademas del global). Este sistema avisa por partes y se actualiza todo en partes. En lugar de un gigante entity que se actualiza siempre.

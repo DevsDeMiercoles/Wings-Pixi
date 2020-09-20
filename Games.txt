@@ -1,0 +1,43 @@
+
+.. Graphics & Event handling ..
+Black Jack		Click an element, Memory, Turns (disable playing)											Multi turns(>2 players)
+Connect Four	Zone Clicks, Data structure, Search terrain												  	Dynamic terrain size
+
+
+
+.. Timing & Motion & Collision .. 		Game loop		
+Snake				Movement, collision detection (score/lose), lives											Tron (local multiplayer)
+Space invaders	Levels, move in bulk, death																		Galaga (movement patterns)
+Tetris			Grid collision, organization
+
+** Extra **
+Truco				Hidden score, advance bets, cut turn, cut game, unit level								Partner play
+Chess				Drag, valid/invalid move, Terrain awareness, player based interactions				Show valid/invalid moves
+
+-- Levels & Pyshics & AI -- 				Planing ahead
+Asteroids		Game math (inertia, friction, acceleration)
+Break out		Physics, Level design, level editor															   Power ups
+Pac Man			AI, trees/graph data, minimax algorithm, path finding (A*)								Make ghost work as a team
+
+** Extra **
+Pool				Advance physics, collision resolution (order)												Physics reproducibility
+
+
+
+== World & Zones & Scrolling ==
+Mario			Gravity, power ups, Advance physics, collision resolution
+Zelda			Health, damage (instant / DOT), interact with world											Shooter
+AoE			Select units, construct, stats, AI (behaviors/commands)
+Bullet hell	Micro levels, patterns, optimization
+
+== Networking ==
+Take previous games and make them multiplayer online	(latency and missed packets, security)		Use UDP and add integrity check
+Waiting rooms, create & wait, join, private/public																Server rooms with friends visibility
+
+
+
+<< Juicing >>
+Add previous games and add juice: particles, ghost trail, interpolation
+
+>> Advance AI <<
+Take previous games and add it's own AI. (alpha-beta pruning, ML, Reinforcemente learning)		Neuro evolution
