@@ -17,6 +17,10 @@ export default class PerlinNoise {
 	constructor(randomGenerator: iRandomGenerator) {
 		this.generator = randomGenerator;
 		this.perlin = new Float32Array(PERLIN_SIZE + 1);
+		this.generateSet();
+	}
+
+	generateSet() {
 		for (let i = 0; i < PERLIN_SIZE + 1; i++) {
 			this.perlin[i] = this.generator.random();
 		}
@@ -44,8 +48,8 @@ export default class PerlinNoise {
 		for (let o = 0; o < perlin_octaves; o++) {
 			let of1 = xi + (yi << PERLIN_YWRAPB) + (zi << PERLIN_ZWRAPB);
 
-			rxf = this.scaledCosine(xf);
-			ryf = this.scaledCosine(yf);
+			rxf = scaledCosine(xf);
+			ryf = scaledCosine(yf);
 
 			n1 = this.perlin[of1 & PERLIN_SIZE];
 			n1 += rxf * (this.perlin[(of1 + 1) & PERLIN_SIZE] - n1);
@@ -60,7 +64,7 @@ export default class PerlinNoise {
 			n3 += rxf * (this.perlin[(of1 + PERLIN_YWRAP + 1) & PERLIN_SIZE] - n3);
 			n2 += ryf * (n3 - n2);
 
-			n1 += this.scaledCosine(zf) * (n2 - n1);
+			n1 += scaledCosine(zf) * (n2 - n1);
 
 			r += n1 * ampl;
 			ampl *= perlin_amp_falloff;
@@ -86,8 +90,7 @@ export default class PerlinNoise {
 		}
 		return r;
 	}
-
-	scaledCosine(i: number): number {
-		return 0.5 * (1.0 - FastMath.cos(i * FastMath.PI));
-	}
+}
+function scaledCosine(i: number): number {
+	return 0.5 * (1.0 - FastMath.cos(i * FastMath.PI));
 }

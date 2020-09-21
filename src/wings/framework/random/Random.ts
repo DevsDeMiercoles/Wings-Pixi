@@ -16,6 +16,10 @@ let random = {
 	setSeed(seed: number): void {
 		generator.setSeed(seed);
 	},
+	randomizeSeed(): void {
+		generator.setSeed(Math.random() * 0x7FFFFFFF);
+		perlin.generateSet();
+	},
 
 	generate(): number {
 		return generator.random();
