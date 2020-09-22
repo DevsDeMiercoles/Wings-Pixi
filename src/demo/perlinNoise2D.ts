@@ -1,6 +1,6 @@
 import { Graphics } from "pixi.js";
 import Engine from "../wings/engine/Engine";
-import FastMath from "../wings/framework/core/FastMath";
+import colors from "../wings/framework/colors";
 import watcher from "../wings/framework/debug";
 import random from "../wings/framework/random/Random";
 
@@ -11,12 +11,17 @@ export default async function start() {
 	let engine = new Engine({ width, height, backgroundColor: 0x828282 });
 	console.log("Corriendo Demo de Perlin Noise 1D");
 
-	let g = new Graphics;
+	let g = new Graphics();
 	engine.stage.addChild(g);
 
-	let increment = 0.01;
-	let speed = 1;
+	let increment = 0.07;
+	let squareSize = 5;
+	let time = false;
+	let timeOffsetX = 0;
+	let timeOffsetY = 0;
+
 	let smooth = false;
+
 	let proxy = {
 		get increment() {
 			return increment;
@@ -24,11 +29,17 @@ export default async function start() {
 		set increment(x) {
 			increment = x;
 		},
-		get speed() {
-			return speed;
+		get pixel() {
+			return squareSize;
 		},
-		set speed(x) {
-			speed = x;
+		set pixel(x) {
+			squareSize = x;
+		},
+		get time() {
+			return time;
+		},
+		set time(x) {
+			time = x;
 		},
 		get smooth() {
 			return smooth;
@@ -41,14 +52,12 @@ export default async function start() {
 
 	engine.onUpdate = tick;
 	random.randomizeSeed();
-	let timeOff = 0;
 
 	function tick() {
 		update();
 
 		g.clear();
-		// g.beginFill(0xFFFFFF);
-		g.lineStyle(1, 0xFFFFFF);
+		g.beginFill(0xFFFFFF);
 		draw();
 		g.endFill();
 	}
@@ -57,18 +66,26 @@ export default async function start() {
 	}
 	function draw() {
 		let noiseFunction = smooth ? random.noiseSmooth : random.noise;
-		let xOff = timeOff;
-		g.moveTo(0, height / 2);
-		for (let x = 0; x <= width; x += 0.5) {
-			let s = FastMath.map(FastMath.sin(xOff), -1, 1, 100, height - 100) * 0;
-			let n = FastMath.map(noiseFunction(xOff), 0, 1, 0, height);
 
-			let y = s + n;
-			// let y = random.getUpTo(height);
+		let xOff = timeOffsetX;
+		for (let x = 0; x <= width; x += squareSize) {
+			let yOff = timeOffsetY;
+			for (let y = 0; y < height; y += squareSize) {
+
+				let colour = noiseFunction(xOff, yOff);
+
+
+				g.beginFill(colors.rgb(colour));
+				g.drawRect(x, y, squareSize, squareSize);
+				yOff += increment;
+			}
 			xOff += increment;
-			g.lineTo(x, y);
 		}
-		timeOff += increment * speed;
+		if (time) {
+			timeOffsetX += increment;
+			let noise = noiseFunction(timeOffsetX);
+			timeOffsetY += (noise - 0.5) * increment;
+		}
 	}
 
 }
