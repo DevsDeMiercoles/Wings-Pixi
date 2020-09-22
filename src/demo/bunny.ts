@@ -5,6 +5,8 @@ import FastMath from "../wings/framework/core/FastMath";
 import watcher from "../wings/framework/debug";
 import Position from "../wings/framework/physics/Position";
 
+let width = 720;
+let height = 480;
 export default async function start() {
 	let engine = new Engine({ backgroundColor: 0x828282 });
 	console.log("Corriendo Demo de Bunny");
@@ -16,8 +18,8 @@ export default async function start() {
 	await engine.loader.load();
 
 	let bunny = new Sprite(engine.loader.resources.bunny.texture);
-	bunny.x = engine.renderer.view.width / 2 + 100;
-	bunny.y = engine.renderer.view.height / 2;
+	bunny.x = width / 2 + 100;
+	bunny.y = height / 2;
 	bunny.anchor.copyFrom(new Position(0.5));
 	engine.stage.addChild(bunny);
 
@@ -30,7 +32,7 @@ export default async function start() {
 
 
 	function tick() {
-		bunny.x = FastMath.wrap(bunny.x + 1, 0, engine.renderer.view.width);
+		bunny.x = FastMath.wrap(bunny.x + 1, 0, width);
 	}
 
 }
