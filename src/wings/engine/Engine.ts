@@ -2,7 +2,7 @@
 import { Container, Renderer, Ticker } from 'pixi.js';
 import Loader from '../framework/loading/Loader';
 
-interface iEngineOptions {
+export interface iEngineOptions {
 	width?: number;
 	height?: number;
 	view?: HTMLCanvasElement;
@@ -18,16 +18,18 @@ interface iEngineOptions {
 }
 export default class Engine {
 	private ticker: Ticker = new Ticker();
-	renderer: Renderer;
+	private renderer: Renderer;
 	stage: Container = new Container();
-	onUpdate: ((stage: Container) => void) | undefined;
+	onUpdate: (() => void) | undefined;
 	loader = new Loader();
 
 	constructor(options?: iEngineOptions) {
-		if (options) { //defaults
-			options.width = options.width ?? 720;
-			options.height = options.height ?? 480;
-		}
+		options = options ?? {};
+
+		options.width = options.width ?? 720;
+		options.height = options.height ?? 480;
+		options.backgroundColor = options.backgroundColor ?? 0x828282;
+		options.antialias = options.antialias ?? true;
 
 		this.renderer = new Renderer(options);
 
@@ -50,7 +52,7 @@ export default class Engine {
 	}
 
 	private tick() {
-		this.onUpdate?.(this.stage);
+		this.onUpdate?.();
 		this.renderer.render(this.stage);
 	}
 }
