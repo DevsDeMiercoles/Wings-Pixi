@@ -15,16 +15,22 @@ export default class Position {
 	}
 
 	/* Setters */
-	moveTo(x: number, y?: number): Position {
+	set(x: number, y?: number): Position {
 		this.x = x;
 		this.y = y ?? x;
 
 		return this;
 	}
 
-	copy(p: Position): Position {
+	copyFrom(p: Position): Position {
 		this.x = p.x;
 		this.y = p.y;
+
+		return this;
+	}
+	copyTo(p: Position): Position {
+		p.x = this.x;
+		p.y = this.y;
 
 		return this;
 	}
@@ -39,9 +45,16 @@ export default class Position {
 	}
 
 	/* Operators */
-	move(v: Vector): Position {
-		this.x += v.x;
-		this.y += v.y;
+	move(distance: Vector): Position {
+		this.x += distance.x;
+		this.y += distance.y;
+
+		return this;
+	}
+
+	moveTo(x: number, y?: number): Position {
+		this.x = x;
+		this.y = y ?? x;
 
 		return this;
 	}
