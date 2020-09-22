@@ -31,19 +31,37 @@ describe("Defaults", () => {
 describe("Setters", () => {
 	test("setter x", () => {
 		let p = new Position();
-		p.moveTo(42);
+		p.set(42);
 		expect(p.x).toBe(42);
 		expect(p.y).toBe(42);
 	});
 	test("setter x-y", () => {
 		let p = new Position();
+		p.set(42, 69);
+		expect(p.x).toBe(42);
+		expect(p.y).toBe(69);
+	});
+	test("move to x", () => {
+		let p = new Position();
+		p.moveTo(42);
+		expect(p.x).toBe(42);
+		expect(p.y).toBe(42);
+	});
+	test("move to x-y", () => {
+		let p = new Position();
 		p.moveTo(42, 69);
 		expect(p.x).toBe(42);
 		expect(p.y).toBe(69);
 	});
-	test("copy", () => {
+	test("copy from", () => {
 		let p = new Position();
-		p.copy(pDefa);
+		p.copyFrom(pDefa);
+		expect(p.x).toBe(666);
+		expect(p.y).toBe(777);
+	});
+	test("copy to", () => {
+		let p = new Position();
+		pDefa.copyTo(p);
 		expect(p.x).toBe(666);
 		expect(p.y).toBe(777);
 	});
@@ -57,7 +75,7 @@ describe("Evaluators", () => {
 	test("equals", () => {
 		let p = new Position(42, 69);
 		expect(p.equals(pDefa)).toBeFalsy();
-		p.copy(pDefa);
+		p.copyFrom(pDefa);
 		expect(p).not.toBe(pDefa);
 		expect(p.equals(pDefa)).toBeTruthy();
 	});
