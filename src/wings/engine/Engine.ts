@@ -9,6 +9,7 @@ export default class Engine {
 	stage: Container = new Container();
 	onUpdate: (() => void) | undefined;
 	loader = new Loader();
+	notifications = notifications;
 
 	constructor(options?: iEngineOptions) {
 		this.renderer = new Renderer(defaultOptions(options ?? {}));
@@ -17,6 +18,8 @@ export default class Engine {
 
 		this.centerApp();
 		window.addEventListener('resize', this.centerApp.bind(this));
+
+		notifications.addNotificationListener(normalNotifications.addToStage, this.addToStage.bind(this));
 
 		this.ticker.add(this.tick.bind(this));
 		this.ticker.start();
@@ -32,6 +35,14 @@ export default class Engine {
 		this.onUpdate?.();
 		this.renderer.render(this.stage);
 	}
+
+	private addToStage(displayObject: DisplayObject) {
+		this.stage.addChild(displayObject);
+	}
+}
+
+export enum normalNotifications {
+	addToStage = "Please add this new graphic to the stage good sir"
 }
 
 export interface iEngineOptions {
