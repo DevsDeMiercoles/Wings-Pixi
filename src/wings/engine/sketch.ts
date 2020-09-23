@@ -5,7 +5,7 @@ export default class Sketch {
 	private engine: Engine;
 	stage: Container;
 	g = new Graphics();
-	draw!: (g: Graphics) => void;
+	draw: ((g: Graphics) => void) | undefined;
 
 	constructor(options?: iEngineOptions) {
 		this.engine = new Engine(options);

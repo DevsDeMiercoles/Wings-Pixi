@@ -117,6 +117,14 @@ export default class LinkedList<T> implements IterableIterator<T>{
 			}
 		}
 	}
+	includes(e: T): boolean {
+		for (let curr = this.root; curr; curr = curr.next) {
+			if (curr.value == e) {
+				return true;
+			}
+		}
+		return false;
+	}
 	private removeLink(link: Link<T>): void {
 		let prev = link.prev;
 		let next = link.next;

@@ -1,42 +1,19 @@
 // import * as PIXI from 'pixi.js';
-import { Container, Renderer, Ticker } from 'pixi.js';
+import { Container, DisplayObject, Renderer, Ticker } from 'pixi.js';
+import notifications from "../framework/Events";
 import Loader from '../framework/loading/Loader';
 
-export interface iEngineOptions {
-	width?: number;
-	height?: number;
-	view?: HTMLCanvasElement;
-	transparent?: boolean;
-	autoDensity?: boolean;
-	antialias?: boolean;
-	resolution?: number;
-	clearBeforeRender?: boolean;
-	preserveDrawingBuffer?: boolean;
-	backgroundColor?: number;
-	powerPreference?: string;
-	elementId?: string;
-}
 export default class Engine {
 	private ticker: Ticker = new Ticker();
-	private renderer: Renderer;
+	renderer: Renderer;
 	stage: Container = new Container();
 	onUpdate: (() => void) | undefined;
 	loader = new Loader();
 
 	constructor(options?: iEngineOptions) {
-		options = options ?? {};
+		this.renderer = new Renderer(defaultOptions(options ?? {}));
 
-		options.width = options.width ?? 720;
-		options.height = options.height ?? 480;
-		options.backgroundColor = options.backgroundColor ?? 0x828282;
-		options.antialias = options.antialias ?? true;
-
-		this.renderer = new Renderer(options);
-
-		if (options?.view == undefined) {
-			let element: HTMLElement = document.getElementById(options?.elementId ?? "wings") ?? document.body;
-			element.appendChild(this.renderer.view);
-		}
+		(document.getElementById(options?.elementId ?? "wings") ?? document.body).appendChild(this.renderer.view);
 
 		this.centerApp();
 		window.addEventListener('resize', this.centerApp.bind(this));
@@ -55,6 +32,29 @@ export default class Engine {
 		this.onUpdate?.();
 		this.renderer.render(this.stage);
 	}
+}
+
+export interface iEngineOptions {
+	width?: number;
+	height?: number;
+	view?: HTMLCanvasElement;
+	transparent?: boolean;
+	autoDensity?: boolean;
+	antialias?: boolean;
+	resolution?: number;
+	clearBeforeRender?: boolean;
+	preserveDrawingBuffer?: boolean;
+	backgroundColor?: number;
+	powerPreference?: string;
+	elementId?: string;
+}
+
+function defaultOptions(options: iEngineOptions): iEngineOptions {
+	options.width = options.width ?? 720;
+	options.height = options.height ?? 480;
+	options.backgroundColor = options.backgroundColor ?? 0x828282;
+	options.antialias = options.antialias ?? true;
+	return options;
 }
 
 // let renderer;
