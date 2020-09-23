@@ -1,5 +1,5 @@
 import FastMath from "../core/FastMath";
-import Position from "./Position";
+import { Coordinates } from "./Position";
 
 export default class Vector {
 	private _x: number;
@@ -16,7 +16,7 @@ export default class Vector {
 		this._y = y ?? x ?? 0;
 	}
 
-	static fromPosition(p: Position): Vector {
+	static fromPosition(p: Coordinates): Vector {
 		return new Vector().copy(p);
 	}
 
@@ -52,7 +52,7 @@ export default class Vector {
 		return this;
 	}
 
-	copy(p: Position | Vector): Vector {
+	copy(p: Coordinates | Vector): Vector {
 		this._x = p.x;
 		this._y = p.y;
 

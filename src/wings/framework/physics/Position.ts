@@ -22,13 +22,13 @@ export default class Position {
 		return this;
 	}
 
-	copyFrom(p: Position): Position {
+	copyFrom(p: Coordinates): Position {
 		this.x = p.x;
 		this.y = p.y;
 
 		return this;
 	}
-	copyTo(p: Position): Position {
+	copyTo(p: Coordinates): Position {
 		p.x = this.x;
 		p.y = this.y;
 
@@ -37,10 +37,10 @@ export default class Position {
 
 	/* Evaluators */
 	toString(): string {
-		return `(${this.x},${this.y})`;
+		return `(${this.x.toFixed()},${this.y.toFixed()})`;
 	}
 
-	equals(p: Position): boolean {
+	equals(p: Coordinates): boolean {
 		return p != null && FastMath.equals(this.x, p.x) && FastMath.equals(this.y, p.y);
 	}
 
@@ -107,24 +107,29 @@ export default class Position {
 	}
 
 	/* Relations */
-	angleWith(target: Position): number {
+	angleWith(target: Coordinates): number {
 		return FastMath.atan2(target.y - this.y, target.x - this.x);
 	}
 
-	vectorTo(target: Position): Vector {
+	vectorTo(target: Coordinates): Vector {
 		return new Vector(target.x - this.x, target.y - this.y);
 	}
 
-	directionTo(target: Position): Vector {
+	directionTo(target: Coordinates): Vector {
 		return new Vector(target.x - this.x, target.y - this.y).normalize();
 	}
 
-	distanceTo(target: Position): number {
+	distanceTo(target: Coordinates): number {
 		return (Math.sqrt((target.x - this.x) * (target.x - this.x) + (target.y - this.y) * (target.y - this.y)));
 	}
 
-	distanceSqTo(target: Position): number {
+	distanceSqTo(target: Coordinates): number {
 		return (target.x - this.x) * (target.x - this.x) + (target.y - this.y) * (target.y - this.y);
 	}
 
+}
+
+export interface Coordinates {
+	x: number;
+	y: number;
 }
