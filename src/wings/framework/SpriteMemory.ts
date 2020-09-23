@@ -10,8 +10,9 @@ export default class SpriteMemory extends Container {
 		super();
 		this.renderer = renderer;
 
-		this.rt = RenderTexture.create({ width: renderer.view.width, height: renderer.view.height });
+		this.rt = RenderTexture.create({ width: renderer.view.width, height: renderer.view.height, resolution: 2 });
 		this.background = new Sprite(this.rt);
+
 		this.addChild(this.background);
 	}
 
