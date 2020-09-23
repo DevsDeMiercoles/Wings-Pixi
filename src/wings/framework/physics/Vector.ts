@@ -5,7 +5,7 @@ export default class Vector {
 	private _x: number;
 	private _y: number;
 
-	private _length: number = 0;
+	private _mag: number = 0;
 	private _angle: number = 0;
 	private dirtySqr = true;
 	private dirtyAngle = true;
@@ -27,7 +27,7 @@ export default class Vector {
 	clone(): Vector {
 		let v = new Vector(this._x, this._y);
 		v._angle = this._angle;
-		v._length = this._length;
+		v._mag = this._mag;
 		v.dirtyAngle = this.dirtyAngle;
 		v.dirtySqr = this.dirtySqr;
 
@@ -58,7 +58,7 @@ export default class Vector {
 
 		if (p instanceof Vector) {
 			this._angle = p._angle;
-			this._length = p._length;
+			this._mag = p._mag;
 			this.dirtyAngle = p.dirtyAngle;
 			this.dirtySqr = p.dirtySqr;
 		}
@@ -73,7 +73,7 @@ export default class Vector {
 		this._y = radius * FastMath.sin(angle);
 
 		this._angle = angle;
-		this._length = radius;
+		this._mag = radius;
 		this.dirtySqr = this.dirtyAngle = false;
 
 		return this;
@@ -106,16 +106,16 @@ export default class Vector {
 		return v != null && FastMath.equals(this._x, v._x) && FastMath.equals(this._y, v._y);
 	}
 
-	length(): number {
+	magnitude(): number {
 		if (this.dirtySqr) {
-			this._length = Math.sqrt(this._x ** 2 + this._y ** 2);
+			this._mag = Math.sqrt(this._x ** 2 + this._y ** 2);
 			this.dirtySqr = false;
 		}
 
-		return this._length;
+		return this._mag;
 	}
 
-	lengthSq(): number {
+	magnitudeSq(): number {
 		return this._x ** 2 + this._y ** 2;
 	}
 
@@ -138,11 +138,11 @@ export default class Vector {
 	}
 
 	isUnit(): boolean {
-		return FastMath.equals(this.lengthSq(), 1);
+		return FastMath.equals(this.magnitudeSq(), 1);
 	}
 
 	isZero(): boolean {
-		return FastMath.equals(this.lengthSq(), 0);
+		return FastMath.equals(this.magnitudeSq(), 0);
 	}
 
 	/* Operators */
@@ -153,7 +153,7 @@ export default class Vector {
 	multiply(s: number): Vector {
 		this._x *= s;
 		this._y *= s;
-		this._length *= s;
+		this._mag *= s;
 
 		return this;
 	}
@@ -161,7 +161,7 @@ export default class Vector {
 	divide(s: number): Vector {
 		this._x /= s;
 		this._y /= s;
-		this._length /= s;
+		this._mag /= s;
 
 		return this;
 	}
@@ -210,29 +210,40 @@ export default class Vector {
 
 
 	/* Transformations */
-	normalize(newLength: number = 1): Vector {
-		if (this.length() != 0) {
-			let factor = newLength / this._length; // Calculated in if
+	normalize(newMag: number = 1): Vector {
+		if (this.magnitude() != 0) {
+			let factor = newMag / this._mag; // Calculated in if
 			this._x *= factor;
 			this._y *= factor;
 
-			this._length = newLength;
+			this._mag = newMag;
 			this.dirtySqr = false;
 		}
 
 		return this;
 	}
 
-	limitTo(limit: number): Vector {
-		if (this.lengthSq() > limit * limit) {
-			this.normalize(limit);
+	limitMagnitude(maxMag: number): Vector {
+		if (this.magnitudeSq() > maxMag * maxMag) {
+			this.normalize(maxMag);
 		}
+
+		return this;
+	}
+	limitAxis(limitX: number, limitY: number): Vector {
+		let x = this._x;
+		if (FastMath.abs(x) > limitX)
+			this.x = limitX * (x < 0 ? -1 : 1);
+
+		let y = this._y;
+		if (FastMath.abs(y) > limitY)
+			y = limitY * (y < 0 ? -1 : 1);
 
 		return this;
 	}
 
 	rotateTo(angle: number): Vector {
-		return this.polar(angle, this.length());
+		return this.polar(angle, this.magnitude());
 	}
 
 	rotateBy(angle: number): Vector {
