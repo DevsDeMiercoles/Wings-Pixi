@@ -10,7 +10,7 @@ export default abstract class Entity {
 	protected pos: Position;
 	protected speed = new Vector();
 	protected acc = new Vector();
-	protected speedLimit = 5;
+	protected mass = 1;
 
 	constructor(sprite: Container, x = 0, y?: number) {
 		this.pos = new Position(x, y ?? x);
@@ -40,26 +40,7 @@ export default abstract class Entity {
 	protected process(): void { }
 
 	applyForce(force: Vector) {
-		this.acc.add(force);
+		this.acc.add(force.clone().divide(this.mass));
 	}
 
-	protected reboundScreen(width: number, height: number) {
-		this.rebound(0, width, 0, height);
-	}
-	protected rebound(minX: number, maxX: number, minY: number, maxY: number) {
-		this.reboundX(minX, maxX);
-		this.reboundY(minY, maxY);
-	}
-	protected reboundX(minX: number, maxX: number) {
-		if (this.pos.x < minX || this.pos.x > maxX) {
-			this.speed.reverseX();
-			this.pos.x += this.speed.x;
-		}
-	}
-	protected reboundY(minY: number, maxY: number) {
-		if (this.pos.y < minY || this.pos.y > maxY) {
-			this.speed.reverseY();
-			this.pos.y += this.speed.y;
-		}
-	}
 }

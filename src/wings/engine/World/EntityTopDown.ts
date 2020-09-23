@@ -3,6 +3,7 @@ import Entity from './Entity';
 
 export default abstract class EntityTopDown extends Entity {
 	protected lookFoward = true;
+	protected speedLimit = 5;
 
 	protected runPhysics(): void {
 		super.runPhysics();

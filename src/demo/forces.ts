@@ -62,7 +62,7 @@ class Walker extends EntityPlatformer {
 
 	constructor(x = 0, y?: number) {
 		super(new Graphics(), x, y);
-		this.speedLimit = 5;
+		this.movementSpeedLimit = 5;
 
 		this.draw();
 		this.speed.polar(random.angle(), 10);
@@ -82,6 +82,26 @@ class Walker extends EntityPlatformer {
 		this.memory.remember(this.sprite);
 
 		this.reboundScreen(width, height);
+	}
+
+	protected reboundScreen(width: number, height: number) {
+		this.rebound(0, width, 0, height);
+	}
+	protected rebound(minX: number, maxX: number, minY: number, maxY: number) {
+		this.reboundX(minX, maxX);
+		this.reboundY(minY, maxY);
+	}
+	protected reboundX(minX: number, maxX: number) {
+		if (this.pos.x < minX || this.pos.x > maxX) {
+			this.speed.reverseX();
+			this.pos.x += this.speed.x;
+		}
+	}
+	protected reboundY(minY: number, maxY: number) {
+		if (this.pos.y < minY || this.pos.y > maxY) {
+			this.speed.reverseY();
+			this.pos.y += this.speed.y;
+		}
 	}
 
 }
