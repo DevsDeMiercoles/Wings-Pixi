@@ -14,12 +14,11 @@ export class Link<T> implements Pooleable {
 		this.prev = null;
 	}
 }
-export default class LinkedList<T> implements IterableIterator<T>{
+export default class LinkedList<T> {
 	private root: Link<T> | null = null;
 	private end: Link<T> | null;
 	private _size = 0;
 	private pool: Pool<Link<T>>;
-	private curr: Link<T> | null = null;
 
 	constructor() {
 		this.pool = new Pool<Link<T>>(Link);
@@ -153,27 +152,32 @@ export default class LinkedList<T> implements IterableIterator<T>{
 		this._size = 0;
 	}
 
-	next(): IteratorResult<T> {
-		if (this.curr?.value) {
-			let value = this.curr.value;
-			this.curr = this.curr.next;
-
-			return {
-				done: false,
-				value: value
-			};
-		} else {
-			return {
-				done: true,
-				value: null
-			};
-		}
-	}
 
 	[Symbol.iterator](): IterableIterator<T> {
-		this.curr = this.root;
+		let curr = this.root;
 
-		return this;
+		let iterator = {
+			next(): IteratorResult<T> {
+				if (curr?.value) {
+					let value = curr.value;
+					curr = curr.next;
+
+					return {
+						done: false,
+						value: value
+					};
+				} else {
+					return {
+						done: true,
+						value: null
+					};
+				}
+			},
+			[Symbol.iterator](): IterableIterator<T> {
+				return this;
+			}
+		};
+		return iterator;
 	}
 
 	toString(): string {
