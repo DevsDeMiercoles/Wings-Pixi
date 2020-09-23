@@ -237,7 +237,7 @@ export default class Vector {
 
 		let y = this._y;
 		if (FastMath.abs(y) > limitY)
-			y = limitY * (y < 0 ? -1 : 1);
+			this.y = limitY * (y < 0 ? -1 : 1);
 
 		return this;
 	}
