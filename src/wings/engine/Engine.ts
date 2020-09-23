@@ -3,8 +3,10 @@ import { Container, DisplayObject, Renderer, Ticker } from 'pixi.js';
 import notifications from "../framework/Events";
 import Loader from '../framework/loading/Loader';
 
+type Updatable = { update(): void; };
 export default class Engine {
 	private ticker: Ticker = new Ticker();
+	private entities = new Array<Updatable>();
 	renderer: Renderer;
 	stage: Container = new Container();
 	onUpdate: (() => void) | undefined;
@@ -20,6 +22,7 @@ export default class Engine {
 		window.addEventListener('resize', this.centerApp.bind(this));
 
 		notifications.addNotificationListener(normalNotifications.addToStage, this.addToStage.bind(this));
+		notifications.addNotificationListener(normalNotifications.updateMe, this.updateEntity.bind(this));
 
 		this.ticker.add(this.tick.bind(this));
 		this.ticker.start();
@@ -33,16 +36,23 @@ export default class Engine {
 
 	private tick() {
 		this.onUpdate?.();
+		for (const e of this.entities) {
+			e.update();
+		}
 		this.renderer.render(this.stage);
 	}
 
 	private addToStage(displayObject: DisplayObject) {
 		this.stage.addChild(displayObject);
 	}
+	private updateEntity(entity: Updatable) {
+		this.entities.push(entity);
+	}
 }
 
 export enum normalNotifications {
-	addToStage = "Please add this new graphic to the stage good sir"
+	addToStage = "Please add this new graphic to the stage good sir",
+	updateMe = "I would like to get notify on the update and do some calculations, thanks"
 }
 
 export interface iEngineOptions {
