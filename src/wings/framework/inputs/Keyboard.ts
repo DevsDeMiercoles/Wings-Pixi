@@ -1,65 +1,26 @@
-import LinkedList from "../core/collections/LinkedList";
-import { Keyboard, KeysCode } from './Keyboard';
+import LinkedList from '../core/collections/LinkedList';
+import { ControllerCallback, InputEvents } from './Controller';
 
-/* Enums */
-export enum InputEvents {
-	KeyDown, KeyIsDown, KeyUp, WheelMove, Click
-}
-export type ControllerCallback = (type: InputEvents, data: string) => void;
+export class Keyboard {
+	private callback: ControllerCallback;
+	pressedKeys = new LinkedList<string>();
 
-export default class Controller {
+	constructor(callback: ControllerCallback) {
+		this.callback = callback;
 
-	private actionsMap = new Map<string, Map<InputEvents, string>>();
-	private actionsQueue = new Array<string>();
-	private keyboard: Keyboard;
-
-		this.keyboard = new Keyboard(this.newKeyAction.bind(this));
-	private pressedKeys = new LinkedList<string>();
-
-	constructor() {
 		window.addEventListener("keydown", this.onKeyDown.bind(this));
 		window.addEventListener("keyup", this.onKeyUp.bind(this));
 	}
 
-	private newKeyAction(type: InputEvents, key: string) {
-		if (!this.actionsMap.has(key))
-			return;
-
-		let inputMap = this.actionsMap.get(key)!;
-		if (inputMap.has(type))
-			this.actionsQueue.push(inputMap.get(type)!);
+	private onKeyDown(event: KeyboardEvent) {
+		let key = event.code;
+		this.pressedKeys.addLast(key);
+		this.callback(InputEvents.KeyDown, key);
 	}
-
-	consumeActions(): Array<string> {
-		let actionsOcurred = [...this.actionsQueue];
-
-		for (let key of this.keyboard.pressedKeys) {
-			if (this.actionsMap.get(key)?.has(InputEvents.KeyIsDown))
-				actionsOcurred.push(this.actionsMap.get(key)?.get(InputEvents.KeyIsDown)!);
-		}
-		this.actionsQueue.length = 0;
-
-		return actionsOcurred;
-	}
-
-	addAction(action: string, key: KeysCode, event: InputEvents): void {
-		if (!this.actionsMap.has(key))
-			this.actionsMap.set(key, new Map());
-
-		let inputMap = this.actionsMap.get(key)!;
-		if (inputMap.has(event)) console.debug("Controller", `An action is being overwriten: ${inputMap.get(event)} -> ${action}`);
-		inputMap.set(event, action);
-	}
-
-	removeAction(key: KeysCode, event: InputEvents): void {
-		if (this.actionsMap.has(key)) {
-			let inputMap = this.actionsMap.get(key)!;
-			if (inputMap.has(event))
-				inputMap.delete(event);
-
-			if (inputMap.size == 0)
-				this.actionsMap.delete(key);
-		}
+	private onKeyUp(event: KeyboardEvent) {
+		let key = event.code;
+		this.pressedKeys.remove(key);
+		this.callback(InputEvents.KeyUp, key);
 	}
 
 	isKeyDown(key: KeysCode): boolean {
