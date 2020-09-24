@@ -87,6 +87,13 @@ let FastMath = {
 	},
 
 	/**
+	 * Returns the sign of the value
+	 */
+	sign(x: number) {
+		return x < 0 ? -1 : 1;
+	},
+
+	/**
 	 * Fix the module giving negative numbers
 	 */
 	realModule(value: number, mod: number) {
