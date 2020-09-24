@@ -1,6 +1,6 @@
 import { Graphics } from "pixi.js";
 import Engine from "../wings/engine/Engine";
-import colors from "../wings/framework/colors";
+import colors from '../wings/framework/core/colors';
 import watcher from "../wings/framework/debug";
 import random from "../wings/framework/random/Random";
 

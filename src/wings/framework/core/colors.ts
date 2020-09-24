@@ -1,5 +1,5 @@
 function rgb(r: number, g?: number, b?: number): number {
-	return rgb255(r * 255, g, b);
+	return rgb255(r * 255, g ?? r * 255, b ?? r * 255);
 }
 function rgb255(r: number, g?: number, b?: number): number {
 	var red = toHex(Math.floor(r));
