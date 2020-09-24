@@ -4,7 +4,8 @@ import EntityPlatformer from '../wings/engine/World/EntityPlatformer';
 import FastMath from "../wings/framework/core/FastMath";
 import watcher from '../wings/framework/debug';
 import notifications from "../wings/framework/Events";
-import { MouseEvents } from '../wings/framework/inputs/Mouse';
+import Controller from '../wings/framework/inputs/Controller';
+import { MouseKeys } from '../wings/framework/inputs/Mouse';
 import Vector from "../wings/framework/physics/Vector";
 import random from "../wings/framework/random/Random";
 import SpriteMemory from "../wings/framework/SpriteMemory";
@@ -12,33 +13,33 @@ import SpriteMemory from "../wings/framework/SpriteMemory";
 let width = 640;
 let height = 320;
 let engine: Engine;
-let mouseDown = false;
+let controller: Controller;
 export default function startForces() {
 	engine = new Engine({ width, height });
+	controller = new Controller(engine.stage);
 
 
 	let ws = new Array<BasicWalker>();
 	ws.push(new Walker(random.range(36, width - 36), 60, 25));
-	for (let i = 0; i < 10; i++) {
-		let mass = FastMath.map(random.normalDistribution(), 0, 1, 1, 100);
-		let w = new BasicWalker(random.normalDistribution() * width, 60, mass);
+	for (let i = 0; i < 1; i++) {
+		// let mass = FastMath.map(random.normalDistribution(), 0, 1, 1, 100);
+		let w = new BasicWalker(random.normalDistribution() * width, 60, 100);
 		ws.push(w);
 	}
 
 	let gravity = new Vector(0, 10);
-	let wind = new Vector(10, 0);
-	engine.stage.interactive = true;
-	engine.stage.on(MouseEvents.MOUSE_DOWN, () => { mouseDown = true; });
-	engine.stage.on(MouseEvents.MOUSE_UP, () => { mouseDown = false; });
+	let wind = new Vector(20, 0);
 
 	engine.onUpdate = () => {
 		for (const w of ws) {
 			w.applyGravity(gravity);
-			if (mouseDown)
+			if (controller.isKeyDown(MouseKeys.LEFT))
 				w.applyForce(wind);
 		}
 	};
 }
+
+type direction = -1 | 1;
 
 class BasicWalker extends EntityPlatformer {
 	protected body = new Circle();
@@ -60,6 +61,7 @@ class BasicWalker extends EntityPlatformer {
 	}
 
 	process() {
+		// this.pos.wrap(0, width, 0, height);
 		this.reboundScreen(width, height);
 	}
 
@@ -67,19 +69,24 @@ class BasicWalker extends EntityPlatformer {
 		this.rebound(0, width, 0, height);
 	}
 	protected rebound(minX: number, maxX: number, minY: number, maxY: number) {
-		this.reboundX(minX, maxX);
-		this.reboundY(minY, maxY);
+		this.reboundXOn(minX, -1);
+		this.reboundXOn(maxX, 1);
+
+		this.reboundYOn(minY, -1);
+		this.reboundYOn(maxY, 1);
 	}
-	protected reboundX(minX: number, maxX: number) {
-		if (this.pos.x < minX + this.body.radius || this.pos.x > maxX - this.body.radius) {
+	protected reboundXOn(value: number, direction: direction) {
+		let penetration = this.pos.x - value + this.body.radius * direction;
+		if (FastMath.sign(penetration) == direction) {
 			this.speed.reverseX();
-			this.pos.x += this.speed.x;
+			this.pos.x += this.speed.x - penetration;
 		}
 	}
-	protected reboundY(minY: number, maxY: number) {
-		if (this.pos.y < minY + this.body.radius || this.pos.y > maxY - this.body.radius) {
+	protected reboundYOn(value: number, direction: direction) {
+		let penetration = this.pos.y - value + this.body.radius * direction;
+		if (FastMath.sign(penetration) == direction) {
 			this.speed.reverseY();
-			this.pos.y += this.speed.y;
+			this.pos.y += this.speed.y - penetration;
 		}
 	}
 }
