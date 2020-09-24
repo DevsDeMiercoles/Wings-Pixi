@@ -4,7 +4,7 @@ import EntityPlatformer from '../wings/engine/World/EntityPlatformer';
 import FastMath from "../wings/framework/core/FastMath";
 import watcher from '../wings/framework/debug';
 import notifications from "../wings/framework/Events";
-import { MouseEvents } from '../wings/framework/inputs/Controller';
+import { MouseEvents } from '../wings/framework/inputs/Mouse';
 import Vector from "../wings/framework/physics/Vector";
 import random from "../wings/framework/random/Random";
 import SpriteMemory from "../wings/framework/SpriteMemory";
