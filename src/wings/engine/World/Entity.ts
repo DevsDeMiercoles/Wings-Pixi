@@ -5,7 +5,7 @@ import WorldObjectDynamic from './WorldObjectDynamic';
 export default abstract class Entity extends WorldObjectDynamic {
 	protected speed = new Vector();
 	protected acc = new Vector();
-	protected mass = 1;
+	mass = 1;
 
 	constructor(sprite: Container, x = 0, y?: number) {
 		super(sprite, x, y);
