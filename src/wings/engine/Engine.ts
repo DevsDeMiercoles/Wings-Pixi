@@ -1,5 +1,5 @@
 // import * as PIXI from 'pixi.js';
-import { Container, DisplayObject, Renderer, Ticker } from 'pixi.js';
+import { Container, DisplayObject, Rectangle, Renderer, Ticker } from 'pixi.js';
 import notifications from "../framework/Events";
 import Loader from '../framework/loading/Loader';
 
@@ -14,8 +14,8 @@ export default class Engine {
 	notifications = notifications;
 
 	constructor(options?: iEngineOptions) {
-		this.renderer = new Renderer(defaultOptions(options ?? {}));
-
+		let config = defaultOptions(options ?? {});
+		this.renderer = new Renderer(config);
 		(document.getElementById(options?.elementId ?? "wings") ?? document.body).appendChild(this.renderer.view);
 
 		this.centerApp();
@@ -24,6 +24,7 @@ export default class Engine {
 		notifications.addNotificationListener(normalNotifications.addToStage, this.addToStage.bind(this));
 		notifications.addNotificationListener(normalNotifications.updateMe, this.updateEntity.bind(this));
 
+		this.stage.hitArea = new Rectangle(0, 0, config.width, config.height);
 		this.ticker.add(this.tick.bind(this));
 		this.ticker.start();
 	}
