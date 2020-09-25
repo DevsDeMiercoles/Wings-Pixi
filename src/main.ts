@@ -6,6 +6,8 @@ import startPerlinNoise2D from "./demo/perlinNoise2D";
 import startWalker from "./demo/randomWalker";
 import test from "./demo/test";
 
+document.oncontextmenu = document.body.oncontextmenu = function (e) { e.preventDefault(); };
+
 (window as any).entradas = {
 	perlin1D: startPerlinNoise1D,
 	perlin2D: startPerlinNoise2D,
