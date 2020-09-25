@@ -1,31 +1,20 @@
 import { Container } from "pixi.js";
-import notifications from "../../framework/Events";
-import Position from "../../framework/physics/Position";
 import Vector from "../../framework/physics/Vector";
-import { normalNotifications } from "../Engine";
+import WorldObjectDynamic from './WorldObjectDynamic';
 
-export default abstract class Entity {
-	protected sprite: Container;
+export default abstract class Entity extends WorldObjectDynamic {
 	protected speed = new Vector();
 	protected acc = new Vector();
 	protected mass = 1;
 
-	pos: Position;
-
 	constructor(sprite: Container, x = 0, y?: number) {
-		this.pos = new Position(x, y ?? x);
-		this.sprite = sprite;
-		this.sprite.position.copyFrom(this.pos);
-
-		notifications.dispatchNotification(normalNotifications.addToStage, this.sprite);
-		notifications.dispatchNotification(normalNotifications.updateMe, this);
+		super(sprite, x, y);
 	}
 
 	update(): void {
 		this.think();
 		this.runPhysics();
-		this.sprite.position.copyFrom(this.pos);
-		this.process();
+		super.update();
 	}
 
 	protected think(): void { }
@@ -37,7 +26,6 @@ export default abstract class Entity {
 		this.acc.multiply(0);
 	}
 
-	protected process(): void { }
 
 	applyForce(force: Vector) {
 		this.acc.add(force.clone().divide(this.mass));
