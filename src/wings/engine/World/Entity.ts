@@ -6,11 +6,11 @@ import { normalNotifications } from "../Engine";
 
 export default abstract class Entity {
 	protected sprite: Container;
-
-	protected pos: Position;
 	protected speed = new Vector();
 	protected acc = new Vector();
 	protected mass = 1;
+
+	pos: Position;
 
 	constructor(sprite: Container, x = 0, y?: number) {
 		this.pos = new Position(x, y ?? x);
