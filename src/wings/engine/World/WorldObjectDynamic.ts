@@ -1,5 +1,5 @@
 import { Container } from "pixi.js";
-import WorldObject from './WorldObject';
+import WorldObject from "./WorldObject";
 
 export default abstract class WorldObjectDynamic extends WorldObject {
 	constructor(sprite: Container, x = 0, y?: number) {
