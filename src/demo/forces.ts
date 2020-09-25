@@ -1,7 +1,7 @@
 import { Graphics } from "pixi.js";
 import Engine, { normalNotifications } from '../wings/engine/Engine';
-import EntityPlatformer from '../wings/engine/World/EntityPlatformer';
-import EntityTopDown from '../wings/engine/World/EntityTopDown';
+import EntityPlatformer from '../wings/engine/world/EntityPlatformer';
+import EntityTopDown from '../wings/engine/world/EntityTopDown';
 import notifications from "../wings/framework/Events";
 import { MouseEvents } from "../wings/framework/inputs/Mouse";
 import Vector from "../wings/framework/physics/Vector";

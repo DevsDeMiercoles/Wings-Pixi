@@ -1,6 +1,6 @@
 import { Circle, Graphics } from 'pixi.js';
 import Engine, { normalNotifications } from '../wings/engine/Engine';
-import EntityPlatformer from '../wings/engine/World/EntityPlatformer';
+import EntityPlatformer from '../wings/engine/world/EntityPlatformer';
 import colors from '../wings/framework/core/colors';
 import FastMath from "../wings/framework/core/FastMath";
 import watcher from '../wings/framework/debug';
