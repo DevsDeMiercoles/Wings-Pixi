@@ -17,9 +17,9 @@ export default class WorldObject {
 			(sprite as any).anchor.set(0.5, 0.5);
 		}
 
+		notifications.dispatchNotification(normalNotifications.addToWorld, this);
 		notifications.dispatchNotification(normalNotifications.addToStage, this.sprite);
 		notifications.dispatchNotification(normalNotifications.updateMe, this);
-		notifications.dispatchNotification(normalNotifications.addToWorld, this);
 	}
 
 	protected update(): void {
