@@ -1,10 +1,11 @@
 import { Container } from "pixi.js";
-import notifications from '../../framework/Events';
-import Position from '../../framework/physics/Position';
-import { normalNotifications } from '../Engine';
+import notifications from '../../../framework/Events';
+import Position from '../../../framework/physics/Position';
+import { normalNotifications } from '../../Engine';
 
 export default abstract class WorldObject {
 	protected sprite: Container;
+	type = "World Object";
 
 	pos: Position;
 

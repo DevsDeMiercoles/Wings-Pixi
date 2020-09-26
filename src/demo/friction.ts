@@ -1,6 +1,6 @@
 import { Circle, Graphics } from "pixi.js";
 import Engine, { normalNotifications } from '../wings/engine/Engine';
-import EntityPlatformer from '../wings/engine/world/EntityPlatformer';
+import EntityPlatformer from '../wings/engine/world/entities/EntityPlatformer';
 import FastMath from "../wings/framework/core/FastMath";
 import watcher from '../wings/framework/debug';
 import notifications from "../wings/framework/Events";
@@ -70,7 +70,7 @@ class BasicWalker extends EntityPlatformer {
 		this.applyForce(this.speed.clone().reverse().normalize(u * this.mass));
 	}
 	applyDrag(density: number) {
-		this.applyForce(this.speed.clone().reverse().normalize(this.speed.magnitudeSq() * density).limitMagnitude(this.speed.magnitude() * 5));
+		this.applyForce(this.speed.clone().reverse().normalize(this.speed.magnitudeSq * density).limitMagnitude(this.speed.magnitude * 5));
 	}
 
 	process() {

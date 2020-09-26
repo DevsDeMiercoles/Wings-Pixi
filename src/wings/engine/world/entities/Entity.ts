@@ -1,15 +1,10 @@
-import { Container } from "pixi.js";
-import Vector from "../../framework/physics/Vector";
+import Vector from "../../../framework/physics/Vector";
 import WorldObjectDynamic from './WorldObjectDynamic';
 
-export default abstract class Entity extends WorldObjectDynamic {
-	protected speed = new Vector();
+export default class Entity extends WorldObjectDynamic {
 	protected acc = new Vector();
+	speed = new Vector();
 	mass = 1;
-
-	constructor(sprite: Container, x = 0, y?: number) {
-		super(sprite, x, y);
-	}
 
 	update(): void {
 		this.think();

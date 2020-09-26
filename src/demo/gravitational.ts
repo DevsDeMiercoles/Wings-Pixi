@@ -1,8 +1,8 @@
 import { Graphics } from "pixi.js";
 import Engine, { normalNotifications } from '../wings/engine/Engine';
-import Entity from '../wings/engine/world/Entity';
-import EntityTopDown from '../wings/engine/world/EntityTopDown';
-import WorldObject from '../wings/engine/world/WorldObject';
+import Entity from "../wings/engine/world/entities/Entity";
+import EntityTopDown from '../wings/engine/world/entities/EntityTopDown';
+import WorldObject from "../wings/engine/world/entities/WorldObject";
 import FastMath from '../wings/framework/core/FastMath';
 import watcher from '../wings/framework/debug';
 import notifications from "../wings/framework/Events";
@@ -28,7 +28,7 @@ export default function startGravitational() {
 	engine.onUpdate = () => {
 		for (const e of entities) {
 			let force = e.pos.vectorTo(atractor.pos);
-			let distance = FastMath.clamp(force.magnitudeSq(), 5 ** 2, 30 ** 2);
+			let distance = FastMath.clamp(force.magnitudeSq, 5 ** 2, 30 ** 2);
 			let strength = (atractor.power * e.mass * G) / distance;
 
 			force.normalize(strength);

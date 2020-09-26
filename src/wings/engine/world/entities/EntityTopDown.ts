@@ -1,4 +1,4 @@
-import FastMath from '../../framework/core/FastMath';
+import FastMath from "../../../framework/core/FastMath";
 import Entity from './Entity';
 
 export default abstract class EntityTopDown extends Entity {
@@ -9,6 +9,6 @@ export default abstract class EntityTopDown extends Entity {
 		super.runPhysics();
 
 		if (this.speedLimit > 0) this.speed.limitMagnitude(this.speedLimit);
-		if (this.lookFoward) this.sprite.angle = this.speed.angle() * FastMath.toDegrees + 90;
+		if (this.lookFoward) this.sprite.angle = this.speed.angle * FastMath.toDegrees + 90;
 	}
 }

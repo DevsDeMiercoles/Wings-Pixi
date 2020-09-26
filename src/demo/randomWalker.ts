@@ -47,6 +47,6 @@ class Walker {
 		this.pos.wrap(0, width, 0, height);
 		this.offsetX += 0.01;
 
-		this.graphic.angle = this.speed.angle() * FastMath.toDegrees + 90;
+		this.graphic.angle = this.speed.angle * FastMath.toDegrees + 90;
 	}
 }
