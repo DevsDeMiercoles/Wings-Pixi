@@ -14,7 +14,7 @@ export default class Drone extends EntityTopDown {
 	}
 	getAlignmentDesire(visionRange: number): Vector {
 		// Average speeds
-		let others = world.filter.byClass(Drone).insideOfRange(this.pos, visionRange).omit(this).data;
+		let others = world.filter.byClass(Drone).insideOfRange(this.pos, visionRange).omit(this).filter();
 
 		let desire = new Vector();
 		for (let other of others) {
@@ -27,7 +27,7 @@ export default class Drone extends EntityTopDown {
 		return desire;
 	}
 	getCohesionDesire(visionRange: number): Vector {
-		let others = world.filter.byClass(Drone).omit(this).insideOfRange(this.pos, visionRange).data;
+		let others = world.filter.byClass(Drone).omit(this).insideOfRange(this.pos, visionRange).filter();
 
 		let sum = new Position();
 		for (let other of others) {
@@ -45,7 +45,7 @@ export default class Drone extends EntityTopDown {
 	}
 	getSeparationDesire(separationRange: number): Vector {
 		// Separate speed
-		let others = world.filter.byClass(Drone).omit(this).insideOfRange(this.pos, separationRange).data;
+		let others = world.filter.byClass(Drone).omit(this).insideOfRange(this.pos, separationRange).filter();
 
 		let desire = new Vector();
 		for (let other of others) {
@@ -82,6 +82,7 @@ export default class Drone extends EntityTopDown {
 	applyDesire(desire: Vector, weight = 1.0) {
 		if (desire.isZero())
 			return;
+		desire = desire.clone();
 
 		var steering = desire.subtract(this.speed);
 		steering.limitMagnitude(this.maxForce * weight);
