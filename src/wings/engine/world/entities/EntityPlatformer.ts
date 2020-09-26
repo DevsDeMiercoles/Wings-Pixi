@@ -1,9 +1,9 @@
 import Vector from "../../../framework/physics/Vector";
 import Entity from './Entity';
 
-export default abstract class EntityPlatformer extends Entity {
-	protected movementSpeedLimit = 5;
-	protected fallingSpeedLimit = 10;
+export default class EntityPlatformer extends Entity {
+	movementSpeedLimit = 5;
+	fallingSpeedLimit = 10;
 
 
 	applyGravity(gravity: Vector): void {

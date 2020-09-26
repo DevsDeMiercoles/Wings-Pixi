@@ -1,9 +1,9 @@
 import FastMath from "../../../framework/core/FastMath";
 import Entity from './Entity';
 
-export default abstract class EntityTopDown extends Entity {
-	protected lookFoward = true;
-	protected speedLimit = 5;
+export default class EntityTopDown extends Entity {
+	lookFoward = true;
+	speedLimit = 5;
 
 	protected runPhysics(): void {
 		super.runPhysics();

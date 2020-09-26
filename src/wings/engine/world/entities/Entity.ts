@@ -2,7 +2,7 @@ import Vector from "../../../framework/physics/Vector";
 import WorldObjectDynamic from './WorldObjectDynamic';
 
 export default class Entity extends WorldObjectDynamic {
-	protected acc = new Vector();
+	acc = new Vector();
 	speed = new Vector();
 	mass = 1;
 
