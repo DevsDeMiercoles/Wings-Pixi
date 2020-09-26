@@ -267,80 +267,80 @@ describe("Relations", () => {
 	});
 	test("distance to", () => {
 		let p2 = new Position(100, 0);
-		expect(p.distanceTo(p2)).toBeCloseTo(p.vectorTo(p2).length(), 4);
+		expect(p.distanceTo(p2)).toBeCloseTo(p.vectorTo(p2).magnitude, 4);
 
 		p2.moveTo(100, 100);
-		expect(p.distanceTo(p2)).toBeCloseTo(p.vectorTo(p2).length(), 4);
+		expect(p.distanceTo(p2)).toBeCloseTo(p.vectorTo(p2).magnitude, 4);
 
 		p2.moveTo(0, 100);
-		expect(p.distanceTo(p2)).toBeCloseTo(p.vectorTo(p2).length(), 4);
+		expect(p.distanceTo(p2)).toBeCloseTo(p.vectorTo(p2).magnitude, 4);
 
 		p2.moveTo(-100, 100);
-		expect(p.distanceTo(p2)).toBeCloseTo(p.vectorTo(p2).length(), 4);
+		expect(p.distanceTo(p2)).toBeCloseTo(p.vectorTo(p2).magnitude, 4);
 
 		p2.moveTo(-100, 0);
-		expect(p.distanceTo(p2)).toBeCloseTo(p.vectorTo(p2).length(), 4);
+		expect(p.distanceTo(p2)).toBeCloseTo(p.vectorTo(p2).magnitude, 4);
 
 		p2.moveTo(-100, -100);
-		expect(p.distanceTo(p2)).toBeCloseTo(p.vectorTo(p2).length(), 4);
+		expect(p.distanceTo(p2)).toBeCloseTo(p.vectorTo(p2).magnitude, 4);
 
 		p2.moveTo(0, -100);
-		expect(p.distanceTo(p2)).toBeCloseTo(p.vectorTo(p2).length(), 4);
+		expect(p.distanceTo(p2)).toBeCloseTo(p.vectorTo(p2).magnitude, 4);
 
 		p2.moveTo(100, -100);
-		expect(p.distanceTo(p2)).toBeCloseTo(p.vectorTo(p2).length(), 4);
+		expect(p.distanceTo(p2)).toBeCloseTo(p.vectorTo(p2).magnitude, 4);
 	});
 
 	test("distance square to", () => {
 		let p2 = new Position(100, 0);
-		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).lengthSq(), 4);
+		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).magnitudeSq, 4);
 
 		p2.moveTo(100, 100);
-		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).lengthSq(), 4);
+		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).magnitudeSq, 4);
 
 		p2.moveTo(0, 100);
-		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).lengthSq(), 4);
+		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).magnitudeSq, 4);
 
 		p2.moveTo(-100, 100);
-		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).lengthSq(), 4);
+		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).magnitudeSq, 4);
 
 		p2.moveTo(-100, 0);
-		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).lengthSq(), 4);
+		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).magnitudeSq, 4);
 
 		p2.moveTo(-100, -100);
-		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).lengthSq(), 4);
+		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).magnitudeSq, 4);
 
 		p2.moveTo(0, -100);
-		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).lengthSq(), 4);
+		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).magnitudeSq, 4);
 
 		p2.moveTo(100, -100);
-		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).lengthSq(), 4);
+		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).magnitudeSq, 4);
 	});
 
 	test("distance square to", () => {
 		let p2 = new Position(100, 0);
-		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).lengthSq(), 4);
+		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).magnitudeSq, 4);
 
 		p2.moveTo(100, 100);
-		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).lengthSq(), 4);
+		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).magnitudeSq, 4);
 
 		p2.moveTo(0, 100);
-		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).lengthSq(), 4);
+		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).magnitudeSq, 4);
 
 		p2.moveTo(-100, 100);
-		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).lengthSq(), 4);
+		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).magnitudeSq, 4);
 
 		p2.moveTo(-100, 0);
-		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).lengthSq(), 4);
+		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).magnitudeSq, 4);
 
 		p2.moveTo(-100, -100);
-		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).lengthSq(), 4);
+		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).magnitudeSq, 4);
 
 		p2.moveTo(0, -100);
-		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).lengthSq(), 4);
+		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).magnitudeSq, 4);
 
 		p2.moveTo(100, -100);
-		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).lengthSq(), 4);
+		expect(p.distanceSqTo(p2)).toBeCloseTo(p.vectorTo(p2).magnitudeSq, 4);
 	});
 });
 

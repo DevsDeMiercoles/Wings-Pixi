@@ -106,7 +106,7 @@ export default class Vector {
 		return v != null && FastMath.equals(this._x, v._x) && FastMath.equals(this._y, v._y);
 	}
 
-	magnitude(): number {
+	get magnitude(): number {
 		if (this.dirtySqr) {
 			this._mag = Math.sqrt(this._x ** 2 + this._y ** 2);
 			this.dirtySqr = false;
@@ -115,11 +115,11 @@ export default class Vector {
 		return this._mag;
 	}
 
-	magnitudeSq(): number {
+	get magnitudeSq(): number {
 		return this._x ** 2 + this._y ** 2;
 	}
 
-	angle(): number {
+	get angle(): number {
 		if (this.dirtyAngle) {
 			this._angle = FastMath.atan2(this._y, this._x);
 			this.dirtyAngle = false;
@@ -128,7 +128,7 @@ export default class Vector {
 		return this._angle;
 	}
 
-	preciseAngle(): number {
+	get preciseAngle(): number {
 		if (this.dirtyAngle) {
 			this._angle = Math.atan2(this._y, this._x);
 			this.dirtyAngle = false;
@@ -138,11 +138,11 @@ export default class Vector {
 	}
 
 	isUnit(): boolean {
-		return FastMath.equals(this.magnitudeSq(), 1);
+		return FastMath.equals(this.magnitudeSq, 1);
 	}
 
 	isZero(): boolean {
-		return FastMath.equals(this.magnitudeSq(), 0);
+		return FastMath.equals(this.magnitudeSq, 0);
 	}
 
 	/* Operators */
@@ -211,7 +211,7 @@ export default class Vector {
 
 	/* Transformations */
 	normalize(newMag: number = 1): Vector {
-		if (this.magnitude() != 0) {
+		if (this.magnitude != 0) {
 			let factor = newMag / this._mag; // Calculated in if
 			this._x *= factor;
 			this._y *= factor;
@@ -224,7 +224,7 @@ export default class Vector {
 	}
 
 	limitMagnitude(maxMag: number): Vector {
-		if (this.magnitudeSq() > maxMag * maxMag) {
+		if (this.magnitudeSq > maxMag * maxMag) {
 			this.normalize(maxMag);
 		}
 
@@ -243,7 +243,7 @@ export default class Vector {
 	}
 
 	rotateTo(angle: number): Vector {
-		return this.polar(angle, this.magnitude());
+		return this.polar(angle, this.magnitude);
 	}
 
 	rotateBy(angle: number): Vector {
@@ -263,7 +263,7 @@ export default class Vector {
 
 	/* Relations */
 	angleBetween(v: Vector): number {
-		return FastMath.normalizeAngle(v.angle() - this.angle());
+		return FastMath.normalizeAngle(v.angle - this.angle);
 	}
 
 	proyectInto(v: Vector): Vector {

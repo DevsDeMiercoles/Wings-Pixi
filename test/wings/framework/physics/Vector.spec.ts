@@ -110,17 +110,17 @@ describe("Queries", () => {
 		expect(p.equals(vDefa)).toBeTruthy();
 	});
 	test("precise Angle", () => {
-		expect(vDefa.preciseAngle()).toBe(Math.atan2(vDefa.y, vDefa.x));
+		expect(vDefa.preciseAngle).toBe(Math.atan2(vDefa.y, vDefa.x));
 	});
 
 	test("angle", () => {
-		expect(vDefa.preciseAngle()).toBeCloseTo(Math.atan2(vDefa.y, vDefa.x), 4);
+		expect(vDefa.preciseAngle).toBeCloseTo(Math.atan2(vDefa.y, vDefa.x), 4);
 	});
 	test("length", () => {
-		expect(vDefa.length()).toBeCloseTo(Math.sqrt(vDefa.x ** 2 + vDefa.y ** 2), 4);
+		expect(vDefa.magnitude).toBeCloseTo(Math.sqrt(vDefa.x ** 2 + vDefa.y ** 2), 4);
 	});
 	test("length sq", () => {
-		expect(vDefa.lengthSq()).toBeCloseTo(vDefa.x ** 2 + vDefa.y ** 2, 4);
+		expect(vDefa.magnitudeSq).toBeCloseTo(vDefa.x ** 2 + vDefa.y ** 2, 4);
 	});
 	test("is unit", () => {
 		let v = new Vector();
@@ -176,28 +176,28 @@ describe("Operators", () => {
 	});
 	test("reverse", () => {
 		let v = new Vector(42, 69);
-		let angle = v.angle();
+		let angle = v.angle;
 		v.reverse();
 		expect(v.x).toBe(-42);
 		expect(v.y).toBe(-69);
-		expect(v.angle()).toBeCloseTo(FastMath.normalizeAngle(angle + FastMath.angle180));
+		expect(v.angle).toBeCloseTo(FastMath.normalizeAngle(angle + FastMath.angle180));
 	});
 
 	test("reverse x", () => {
 		let v = new Vector(42, 69);
-		let angle = v.angle();
+		let angle = v.angle;
 		v.reverseX();
 		expect(v.x).toBe(-42);
 		expect(v.y).toBe(69);
-		expect(v.angle()).toBeCloseTo(FastMath.angle180 - angle);
+		expect(v.angle).toBeCloseTo(FastMath.angle180 - angle);
 	});
 	test("reverse y", () => {
 		let v = new Vector(42, 69);
-		let angle = v.angle();
+		let angle = v.angle;
 		v.reverseY();
 		expect(v.x).toBe(42);
 		expect(v.y).toBe(-69);
-		expect(v.angle()).toBe(-angle);
+		expect(v.angle).toBe(-angle);
 	});
 });
 
@@ -205,63 +205,63 @@ describe("Transformations", () => {
 	test("normalize", () => {
 		let v = new Vector(42, 69);
 		let n = 13.57;
-		let factor = n / v.length();
+		let factor = n / v.magnitude;
 		v.normalize(n);
 		expect(v.x).toBe(42 * factor);
 		expect(v.y).toBe(69 * factor);
-		expect(v.length()).toBe(n);
-		expect(v.lengthSq()).toBeCloseTo(n ** 2, 6);
+		expect(v.magnitude).toBe(n);
+		expect(v.magnitudeSq).toBeCloseTo(n ** 2, 6);
 	});
 	test("normalize a zero vector", () => {
 		let v = new Vector();
 		v.normalize();
 		expect(v.x).toBe(0);
 		expect(v.y).toBe(0);
-		expect(v.length()).toBe(0);
+		expect(v.magnitude).toBe(0);
 	});
 	test("normalize defa", () => {
 		let v = new Vector(42, 69);
-		let factor = 1 / v.length();
+		let factor = 1 / v.magnitude;
 		v.normalize();
 		expect(v.x).toBe(42 * factor);
 		expect(v.y).toBe(69 * factor);
-		expect(v.length()).toBe(1);
-		expect(v.lengthSq()).toBe(1);
+		expect(v.magnitude).toBe(1);
+		expect(v.magnitudeSq).toBe(1);
 	});
 
 	test("limit to", () => {
 		let v = new Vector(42, 69);
 		let n = 2000;
-		let length = v.length();
-		v.limitTo(n);
+		let length = v.magnitude;
+		v.limitMagnitude(n);
 		expect(v.x).toBe(42);
 		expect(v.y).toBe(69);
-		expect(v.length()).toBe(length);
+		expect(v.magnitude).toBe(length);
 
 		n = 10;
 		let factor = n / length;
-		v.limitTo(n);
-		expect(v.length()).toBe(n);
+		v.limitMagnitude(n);
+		expect(v.magnitude).toBe(n);
 		expect(v.x).toBe(42 * factor);
 		expect(v.y).toBe(69 * factor);
 	});
 	test("rotate to", () => {
 		let v = new Vector(42, 69);
-		let length = v.length();
+		let length = v.magnitude;
 
 		v.rotateTo(FastMath.angle360 - FastMath.angle45);
-		expect(v.angle()).toBe(FastMath.angle360 - FastMath.angle45);
-		expect(v.length()).toBe(length);
+		expect(v.angle).toBe(FastMath.angle360 - FastMath.angle45);
+		expect(v.magnitude).toBe(length);
 	});
 
 	test("rotate by", () => {
 		let v = new Vector(42, 69);
-		let angle = v.angle();
-		let length = v.length();
+		let angle = v.angle;
+		let length = v.magnitude;
 
 		v.rotateBy(FastMath.angle45 / 2);
-		expect(v.angle()).toBe(angle + FastMath.angle45 / 2);
-		expect(v.length()).toBe(length);
+		expect(v.angle).toBe(angle + FastMath.angle45 / 2);
+		expect(v.magnitude).toBe(length);
 	});
 
 });
@@ -272,7 +272,7 @@ describe("Relations", () => {
 
 	test.each(dataAllDirections)("angleBetween", (x, y) => {
 		let v2 = new Vector(x, y);
-		expect(v.angleBetween(v2)).toBeCloseTo(v2.preciseAngle() - v.preciseAngle(), 4);
+		expect(v.angleBetween(v2)).toBeCloseTo(v2.preciseAngle - v.preciseAngle, 4);
 	});
 
 	let d2 = dot(v, v);
