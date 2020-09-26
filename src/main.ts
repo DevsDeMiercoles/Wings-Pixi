@@ -7,9 +7,10 @@ import startMass from "./demo/mass";
 import startPerlinNoise1D from "./demo/perlinNoise1D";
 import startPerlinNoise2D from "./demo/perlinNoise2D";
 import startWalker from "./demo/randomWalker";
+import startSeeking from "./demo/seeking";
 import test from "./demo/test";
 
-document.oncontextmenu = document.body.oncontextmenu = function (e) { e.preventDefault(); };
+document.oncontextmenu = function (e) { e.preventDefault(); };
 
 (window as any).entradas = {
 	perlin1D: startPerlinNoise1D,
@@ -21,5 +22,6 @@ document.oncontextmenu = document.body.oncontextmenu = function (e) { e.preventD
 	drag: startDrag,
 	friction: startFriction,
 	gravitational: startGravitational,
+	seek: startSeeking,
 	default: test
 };;
