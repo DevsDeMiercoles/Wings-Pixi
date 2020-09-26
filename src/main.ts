@@ -1,14 +1,16 @@
 import startBunny from "./demo/bunny";
 import startDrag from './demo/drag';
+import startFlowField from "./demo/flowfield";
 import startForces from "./demo/forces";
 import startFriction from './demo/friction';
 import startGravitational from './demo/gravitational';
+import startMapQuery from "./demo/mapquery";
 import startMass from "./demo/mass";
 import startPerlinNoise1D from "./demo/perlinNoise1D";
 import startPerlinNoise2D from "./demo/perlinNoise2D";
 import startWalker from "./demo/randomWalker";
 import startSeeking from "./demo/seeking";
-import test from "./demo/test";
+import startDefault from "./demo/test";
 
 document.oncontextmenu = function (e) { e.preventDefault(); };
 
@@ -23,5 +25,7 @@ document.oncontextmenu = function (e) { e.preventDefault(); };
 	friction: startFriction,
 	gravitational: startGravitational,
 	seek: startSeeking,
-	default: test
+	flowField: startFlowField,
+	mapQuery: startMapQuery,
+	default: startDefault
 };;
