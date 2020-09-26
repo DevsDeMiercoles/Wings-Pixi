@@ -6,9 +6,14 @@ export default class EntityTopDown extends Entity {
 	speedLimit = 5;
 
 	protected runPhysics(): void {
-		super.runPhysics();
+		if (this.speedLimit > 0) {
+			this.speed.add(this.acc).limitMagnitude(this.speedLimit);
+			this.pos.move(this.speed);
+			this.acc.multiply(0);
+		}
+		else
+			super.runPhysics();
 
-		if (this.speedLimit > 0) this.speed.limitMagnitude(this.speedLimit);
 		if (this.lookFoward) this.sprite.angle = this.speed.angle * FastMath.toDegrees + 90;
 	}
 }
