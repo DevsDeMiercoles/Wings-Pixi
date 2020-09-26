@@ -16,6 +16,7 @@ export default abstract class WorldObject {
 
 		notifications.dispatchNotification(normalNotifications.addToStage, this.sprite);
 		notifications.dispatchNotification(normalNotifications.updateMe, this);
+		notifications.dispatchNotification(normalNotifications.addToWorld, this);
 	}
 
 	update(): void {
