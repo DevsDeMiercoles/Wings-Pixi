@@ -40,12 +40,6 @@ export default class SimplexNoise {
 		this.generator = generator;
 
 		this.generateSet();
-		this.perm = new Uint8Array(512);
-		this.permMod12 = new Uint8Array(512);
-		for (let i = 0; i < 512; i++) {
-			this.perm[i] = this.p[i & 255];
-			this.permMod12[i] = this.perm[i] % 12;
-		}
 	}
 
 	generateSet() {
@@ -59,6 +53,12 @@ export default class SimplexNoise {
 			let aux = this.p[i];
 			this.p[i] = this.p[r];
 			this.p[r] = aux;
+		}
+		this.perm = new Uint8Array(512);
+		this.permMod12 = new Uint8Array(512);
+		for (let i = 0; i < 512; i++) {
+			this.perm[i] = this.p[i & 255];
+			this.permMod12[i] = this.perm[i] % 12;
 		}
 	}
 
