@@ -19,18 +19,23 @@ class World {
 			if (this.map)
 				this.map.remove(thing);
 		});
+		notifications.addNotificationListener(normalNotifications.iJustMoved, (thing: WorldObject) => {
+			if (this.map)
+				this.map.update(thing);
+		});
 	}
+
 	getAll(): Array<WorldObject> {
 		return [...this.things];
-	}
+	};
 	get filter() {
-		return new WorldFilter([...this.things]);
+		return new WorldFilter(this.things);
 	}
 	mapFilter(pos: Position, range?: number) {
 		if (range == undefined)
-			return new WorldFilter([...this.map.getCellAtPos(pos)]);
+			return new WorldFilter(this.map.getCellAtPos(pos));
 		else
-			return new WorldFilter([...this.map.getCellsInArea(pos, range)]).insideOfRange(pos, range);
+			return new WorldFilter(this.map.getCellsInArea(pos, range)).insideOfRange(pos, range);
 	}
 	createMap(cellSize: number, cellsAmount: { x: number, y: number; }) {
 		this.map = new Map(cellSize, cellsAmount);
@@ -91,7 +96,9 @@ let filters = {
 	},
 	insideOfRange(pos: Position, range: number): Filter {
 		let sqDistance = range ** 2;
-		return (wo: WorldObject): boolean => { return pos.distanceSqTo(wo.pos) <= sqDistance; };
+		return (wo: WorldObject): boolean => {
+			return pos.distanceSqTo(wo.pos) <= sqDistance;
+		};
 	},
 	omit(...toAvoid: WorldObject[]): Filter {
 		return (wo: WorldObject): boolean => { return !toAvoid.includes(wo); };

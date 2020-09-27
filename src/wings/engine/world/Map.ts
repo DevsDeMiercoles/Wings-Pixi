@@ -1,4 +1,5 @@
 import FastMath from "../../framework/core/FastMath";
+import { removeFromArray } from "../../framework/core/utils";
 import Position from "../../framework/physics/Position";
 import WorldObject from "./entities/WorldObject";
 
@@ -6,6 +7,7 @@ import WorldObject from "./entities/WorldObject";
 type Cell = Array<WorldObject>;
 
 export default class Map {
+
 	private data = new Array<Array<Cell>>();
 	private cellDimension: number = 50;
 
@@ -26,9 +28,15 @@ export default class Map {
 	}
 	remove(e: WorldObject) {
 		let pos = this.translateWorldToMap(e.pos);
-		let cell = this.data[pos.x][pos.y];
-		let i = cell.indexOf(e);
-		if (i != undefined) cell.splice(i, 1);
+		this.data[pos.x][pos.y] = removeFromArray(this.data[pos.x][pos.y], e);
+	}
+	update(e: WorldObject) {
+		let oldPos = this.translateWorldToMap(e.previousPosition);
+		let pos = this.translateWorldToMap(e.pos);
+		if (!oldPos.equals(pos)) {
+			this.data[oldPos.x][oldPos.y] = removeFromArray(this.data[oldPos.x][oldPos.y], e);
+			this.data[pos.x][pos.y].push(e);
+		}
 	}
 	getCellAtPos(pos: Position): Array<WorldObject> {
 		let origin = this.translateWorldToMap(pos);
@@ -36,12 +44,13 @@ export default class Map {
 
 	}
 	getCellsInArea(pos: Position, width: number, height?: number): Array<WorldObject> {
+		// width *= 1.1;
 		height = height ?? width;
 		let min = this.translateWorldToMap(pos.clone().moveBy(-width, -height));
 		let max = this.translateWorldToMap(pos.clone().moveBy(width, height));
 
 		if (min.equals(max))
-			return [...this.data[min.x][min.y]];
+			return this.data[min.x][min.y];
 
 		let cells = new Array<WorldObject>();
 		for (let x = min.x; x <= max.x; x++) {
