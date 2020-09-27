@@ -14,6 +14,6 @@ export default class EntityTopDown extends Entity {
 		else
 			super.runPhysics();
 
-		if (this.lookFoward) this.sprite.angle = this.speed.angle * FastMath.toDegrees + 90;
+		if (this.lookFoward && !this.speed.isZero()) this.sprite.angle = this.speed.angle * FastMath.toDegrees + 90;
 	}
 }
