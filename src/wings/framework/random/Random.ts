@@ -65,6 +65,14 @@ let random = {
 	normalDistribution(factor: number = 3): number {
 		return gaussianGenerator.random(factor);
 	},
+	/**
+	 * Return a value betwen (0, 1) with a median of 0.5
+	 * 
+	 * The factor affects how with the distribution is
+	 */
+	normalDistributedIn(median: number, diff: number, factor: number = 3): number {
+		return FastMath.map(gaussianGenerator.random(factor), 0, 1, median - diff, median + diff);
+	},
 
 	/**
 	 * Return a value betwen (0, 1)

@@ -7,6 +7,7 @@ let PI_4 = PI / 4;
 let angle45 = PI_4;
 let angle90 = PI_2;
 let angle180 = PI;
+let angle270 = PI + angle90;
 let angle360 = PI_DOUBLE;
 let toDegrees = 180 / PI;
 let toRadian = PI / 180;
@@ -19,6 +20,7 @@ let FastMath = {
 	angle45,
 	angle90,
 	angle180,
+	angle270,
 	angle360,
 	toDegrees,
 	toRadian,
