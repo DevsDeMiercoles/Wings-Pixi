@@ -1,5 +1,6 @@
 import startBunny from "./demo/bunny";
 import startDrag from './demo/drag';
+import startFlock from "./demo/flock";
 import startFlowField from "./demo/flowfield";
 import startForces from "./demo/forces";
 import startFriction from './demo/friction';
@@ -29,5 +30,6 @@ document.oncontextmenu = function (e) { e.preventDefault(); };
 	flowField: startFlowField,
 	mapQuery: startMapQuery,
 	pathFollow: startPathFollow,
+	flock: startFlock,
 	default: startDefault
 };;
