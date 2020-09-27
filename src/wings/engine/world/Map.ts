@@ -1,10 +1,9 @@
-import LinkedList from "../../framework/core/collections/LinkedList";
 import FastMath from "../../framework/core/FastMath";
 import Position from "../../framework/physics/Position";
 import WorldObject from "./entities/WorldObject";
 
 
-type Cell = LinkedList<WorldObject>;
+type Cell = Array<WorldObject>;
 
 export default class Map {
 	private data = new Array<Array<Cell>>();
@@ -16,18 +15,20 @@ export default class Map {
 			let column = new Array<Cell>();
 			this.data[x] = column;
 			for (let y = 0; y < cellsAmount.y; y++) {
-				let cell = new LinkedList<WorldObject>();
+				let cell = new Array<WorldObject>();
 				column[y] = cell;
 			}
 		}
 	}
 	add(e: WorldObject) {
 		let pos = this.translateWorldToMap(e.pos);
-		this.data[pos.x][pos.y].addLast(e);
+		this.data[pos.x][pos.y].push(e);
 	}
 	remove(e: WorldObject) {
 		let pos = this.translateWorldToMap(e.pos);
-		this.data[pos.x][pos.y].remove(e);
+		let cell = this.data[pos.x][pos.y];
+		let i = cell.indexOf(e);
+		if (i != undefined) cell.splice(i, 1);
 	}
 	getCellAtPos(pos: Position): Array<WorldObject> {
 		let origin = this.translateWorldToMap(pos);

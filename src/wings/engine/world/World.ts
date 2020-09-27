@@ -1,4 +1,3 @@
-import LinkedList from "../../framework/core/collections/LinkedList";
 import notifications from "../../framework/Events";
 import Position from "../../framework/physics/Position";
 import { normalNotifications } from "../Engine";
@@ -7,16 +6,16 @@ import Map from "./Map";
 
 class World {
 	private map!: Map;
-	private things = new LinkedList<WorldObject>();
+	private things = new Array<WorldObject>();
 
 	constructor() {
 		notifications.addNotificationListener(normalNotifications.addToWorld, (thing: WorldObject) => {
-			this.things.addLast(thing);
+			this.things.push(thing);
 			if (this.map)
 				this.map.add(thing);
 		});
 		notifications.addNotificationListener(normalNotifications.removeFromWorld, (thing: WorldObject) => {
-			this.things.remove(thing);
+			this.things.splice(this.things.indexOf(thing));
 			if (this.map)
 				this.map.remove(thing);
 		});
@@ -85,7 +84,7 @@ class WorldFilter<T extends WorldObject> {
 type Filter = (wo: WorldObject) => boolean;
 let filters = {
 	classFilter<T extends WorldObject>(clazz: Class<T>): Filter {
-		return (wo: WorldObject): boolean => { return wo.constructor == clazz; };
+		return (wo: WorldObject): boolean => { return wo instanceof clazz; };
 	},
 	typeFilter(type: string): Filter {
 		return (wo: WorldObject): boolean => { return wo.type == type; };
