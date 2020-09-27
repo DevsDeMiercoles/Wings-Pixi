@@ -2,8 +2,9 @@ import { Graphics } from "pixi.js";
 import FastMath from "../../../framework/core/FastMath";
 import Position from "../../../framework/physics/Position";
 import Vector from "../../../framework/physics/Vector";
-import { world } from "../World";
+import Entity from "./Entity";
 import EntityTopDown from "./EntityTopDown";
+import WorldObject from "./WorldObject";
 
 export default class Drone extends EntityTopDown {
 	private maxForce = 0.5;
@@ -13,49 +14,44 @@ export default class Drone extends EntityTopDown {
 		super(sprite, x, y);
 		this.type = "Drone";
 	}
-	getAlignmentDesire(visionRange: number): Vector | null {
+	getAlignmentDesire(targets: Entity[]): Vector | null {
 		// Average speeds
-		let others = world.filter.byClass(Drone).insideOfRange(this.pos, visionRange).omit(this).filter();
 
-		if (others.length) {
+
+		if (targets.length) {
 			let desire = new Vector();
 
-			for (let other of others) {
-				desire.add(other.speed);
+			for (let target of targets) {
+				desire.add(target.speed);
 			}
 
-			desire.divide(others.length).limitMagnitude(this.speedLimit);
+			desire.divide(targets.length).limitMagnitude(this.speedLimit);
 
 			return desire;
 		}
 		else
 			return null;
 	}
-	getCohesionDesire(visionRange: number): Vector | null {
-		let others = world.filter.byClass(Drone).omit(this).insideOfRange(this.pos, visionRange).filter();
 
-
-		if (others.length) {
+	getCohesionDesire(targets: WorldObject[]): Vector | null {
+		if (targets.length) {
 			let sum = new Position();
-			for (let other of others) {
+			for (let other of targets) {
 				sum.x += other.pos.x;
 				sum.y += other.pos.y;
 			}
-			sum.x /= others.length;
-			sum.y /= others.length;
+			sum.x /= targets.length;
+			sum.y /= targets.length;
 
-			return this.getSeekingDesire(sum, visionRange);
+			return this.getSeekingDesire(sum);
 		} else
 			return null;
 
 	}
-	getSeparationDesire(separationRange: number): Vector | null {
-		// Separate speed
-		let others = world.mapFilter(this.pos, separationRange).byClass(Drone).omit(this).filter();
-
-		if (others.length) {
+	getSeparationDesire(targets: WorldObject[]): Vector | null {
+		if (targets.length) {
 			let desire = new Vector();
-			for (let other of others) {
+			for (let other of targets) {
 				desire.subtract(this.pos.vectorTo(other.pos));
 			}
 			desire.normalize(this.speedLimit);

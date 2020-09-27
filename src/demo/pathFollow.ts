@@ -79,7 +79,8 @@ class Vehicle extends Drone {
 			this.seekCloserPoint();
 		let desire = this.getSeekingDesire(path.points[this.currentPoint]);
 		this.applyDesire(desire, 1);
-		desire = this.getSeparationDesire(this.comfortZone);
+		let targets = world.mapFilter(this.pos, this.comfortZone).omit(this).byClass(Vehicle).filter();
+		desire = this.getSeparationDesire(targets);
 		this.applyDesire(desire, 1);
 	}
 	seekCloserPoint() {
