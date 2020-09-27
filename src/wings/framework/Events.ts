@@ -23,7 +23,7 @@ export class Notificator {
 	}
 
 	dispatchNotification(name: string, data?: any): void {
-		setTimeout(() => { this.dispatch({ name, data }); }, 0);
+		queueMicrotask(() => { this.dispatch({ name, data }); });
 	}
 
 	dispatchUrgentNotification(name: string, data?: any): void {
