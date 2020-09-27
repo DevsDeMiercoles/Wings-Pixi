@@ -3,6 +3,7 @@ import startDrag from './demo/drag';
 import startFlock from "./demo/flock";
 import startFlowField from "./demo/flowfield";
 import startForces from "./demo/forces";
+import startFractal from "./demo/fractal";
 import startFriction from './demo/friction';
 import startGravitational from './demo/gravitational';
 import startMapQuery from "./demo/mapquery";
@@ -31,5 +32,6 @@ document.oncontextmenu = function (e) { e.preventDefault(); };
 	mapQuery: startMapQuery,
 	pathFollow: startPathFollow,
 	flock: startFlock,
+	fractal: startFractal,
 	default: startDefault
 };;
