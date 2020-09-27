@@ -1,5 +1,5 @@
 import { Graphics, Point } from "pixi.js";
-import Engine from '../wings/engine/Engine';
+import Engine, { normalNotifications } from '../wings/engine/Engine';
 import Drone from "../wings/engine/world/entities/Drone";
 import { world } from "../wings/engine/world/World";
 import FastMath from "../wings/framework/core/FastMath";
@@ -8,7 +8,6 @@ import Controller from "../wings/framework/inputs/Controller";
 import { MouseKeys } from "../wings/framework/inputs/Mouse";
 import Position from "../wings/framework/physics/Position";
 import random from "../wings/framework/random/Random";
-import { normalNotifications } from './../wings/engine/Engine';
 
 let width = 720;
 let height = 480;
