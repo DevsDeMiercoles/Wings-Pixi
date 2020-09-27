@@ -12,86 +12,88 @@ export default class Drone extends EntityTopDown {
 		super(sprite, x, y);
 		this.type = "Drone";
 	}
-	getAlignmentDesire(visionRange: number): Vector {
+	getAlignmentDesire(visionRange: number): Vector | null {
 		// Average speeds
 		let others = world.filter.byClass(Drone).insideOfRange(this.pos, visionRange).omit(this).filter();
 
-		let desire = new Vector();
-		for (let other of others) {
-			desire.add(other.speed);
-		}
+		if (others.length) {
+			let desire = new Vector();
 
-		if (others.length)
+			for (let other of others) {
+				desire.add(other.speed);
+			}
+
 			desire.divide(others.length).limitMagnitude(this.speedLimit);
 
-		return desire;
+			return desire;
+		}
+		else
+			return null;
 	}
-	getCohesionDesire(visionRange: number): Vector {
+	getCohesionDesire(visionRange: number): Vector | null {
 		let others = world.filter.byClass(Drone).omit(this).insideOfRange(this.pos, visionRange).filter();
 
-		let sum = new Position();
-		for (let other of others) {
-			sum.x += other.pos.x;
-			sum.y += other.pos.y;
-		}
 
 		if (others.length) {
+			let sum = new Position();
+			for (let other of others) {
+				sum.x += other.pos.x;
+				sum.y += other.pos.y;
+			}
 			sum.x /= others.length;
 			sum.y /= others.length;
+
 			return this.getSeekingDesire(sum, visionRange);
-		} else {
-			return new Vector();
-		}
+		} else
+			return null;
+
 	}
-	getSeparationDesire(separationRange: number): Vector {
+	getSeparationDesire(separationRange: number): Vector | null {
 		// Separate speed
-		let others = world.filter.byClass(Drone).omit(this).insideOfRange(this.pos, separationRange).filter();
+		let others = world.mapFilter(this.pos, separationRange).byClass(Drone).omit(this).filter();
 
-		let desire = new Vector();
-		for (let other of others) {
-			desire.subtract(this.pos.directionTo(other.pos)); //FIXME
+		if (others.length) {
+			let desire = new Vector();
+			for (let other of others) {
+				desire.subtract(this.pos.vectorTo(other.pos));
+			}
+			desire.normalize(this.speedLimit);
+
+			return desire;
 		}
-
-		desire.normalize(this.speedLimit);
-
-		return desire;
+		else
+			return null;
 	}
-	getSeekingDesire(target: Position, visionRange?: number, comfortZone?: number): Vector {
-		let desire = new Vector();
-
+	getSeekingDesire(target: Position, visionRange?: number, comfortZone?: number): Vector | null {
 		if (visionRange == undefined || this.canSee(target, visionRange)) {
+			let desire = new Vector();
 			desire = this.pos.vectorTo(target);
 			let zone = comfortZone ?? visionRange ?? 1;
 
 			let speed = FastMath.map(desire.magnitude, 0, zone, 0, this.speedLimit);
 			desire.normalize(speed);
-		}
-
-		return desire;
+			return desire;
+		} else
+			return null;
 	}
 
-	getFleeingDesire(target: Position, visionRange: number): Vector {
-		var desire = new Vector();
-
+	getFleeingDesire(target: Position, visionRange: number): Vector | null {
 		if (this.canSee(target, visionRange))
-			desire = this.pos.vectorTo(target).reverse().divide(visionRange).multiply(this.speedLimit);
-
-
-		return desire;
+			return this.pos.vectorTo(target).reverse().divide(visionRange).multiply(this.speedLimit);
+		else
+			return null;
 	}
-	applyDesire(desire: Vector, weight = 1.0) {
-		if (desire.isZero())
+	applyDesire(desire: Vector | null, weight = 1.0) {
+		if (desire == null)
 			return;
+
 		desire = desire.clone();
 
 		var steering = desire.subtract(this.speed);
 		steering.limitMagnitude(this.maxForce * weight);
 		this.applyForce(steering);
 	}
-
 	private canSee(target: Position, visionRange: number): boolean {
 		return this.pos.distanceSqTo(target) <= visionRange ** 2;
 	}
-
-
 }
