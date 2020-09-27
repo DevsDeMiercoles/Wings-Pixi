@@ -6,6 +6,7 @@ import startFriction from './demo/friction';
 import startGravitational from './demo/gravitational';
 import startMapQuery from "./demo/mapquery";
 import startMass from "./demo/mass";
+import startPathFollow from "./demo/pathFollow";
 import startPerlinNoise1D from "./demo/perlinNoise1D";
 import startPerlinNoise2D from "./demo/perlinNoise2D";
 import startWalker from "./demo/randomWalker";
@@ -27,5 +28,6 @@ document.oncontextmenu = function (e) { e.preventDefault(); };
 	seek: startSeeking,
 	flowField: startFlowField,
 	mapQuery: startMapQuery,
+	pathFollow: startPathFollow,
 	default: startDefault
 };;
