@@ -4,6 +4,7 @@ import Position from '../../../framework/physics/Position';
 import { normalNotifications } from '../../Engine';
 
 export default class WorldObject {
+	previousPosition = new Position();
 	protected sprite: Container;
 	type = "World Object";
 
@@ -20,9 +21,12 @@ export default class WorldObject {
 		notifications.dispatchNotification(normalNotifications.addToWorld, this);
 		notifications.dispatchNotification(normalNotifications.addToStage, this.sprite);
 		notifications.dispatchNotification(normalNotifications.updateMe, this);
+		this.previousPosition.copyFrom(this.pos);
 	}
 
 	protected update(): void {
 		this.sprite.position.copyFrom(this.pos);
+		if (!this.pos.equals(this.previousPosition))
+			notifications.dispatchNotification(normalNotifications.iJustMoved, this);
 	}
 }

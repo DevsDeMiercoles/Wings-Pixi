@@ -52,11 +52,14 @@ export default class Engine {
 }
 
 
+
+
 export enum normalNotifications {
 	addToStage = "Please add this new graphic to the stage good sir",
 	updateMe = "I would like to get notify on the update and do some calculations, thanks",
 	addToWorld = "Mr, I would like to join your world and particpate in it!",
-	removeFromWorld = "FUCK THIS SHIT! I'm out!"
+	removeFromWorld = "FUCK THIS SHIT! I'm out!",
+	iJustMoved = "K, I don't know if anyone actually cares, but I have just moved my position"
 }
 
 export interface iEngineOptions {
