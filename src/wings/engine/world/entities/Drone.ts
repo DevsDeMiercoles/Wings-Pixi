@@ -14,15 +14,29 @@ export default class Drone extends EntityTopDown {
 		super(sprite, x, y);
 		this.type = "Drone";
 	}
-	getAlignmentDesire(targets: Entity[]): Vector | null {
-		// Average speeds
-
-
+	/** Finds the average direction and follows it at full speed */
+	getHerdMentalityDesire(targets: Entity[]): Vector | null {
 		if (targets.length) {
 			let desire = new Vector();
 
 			for (let target of targets) {
-				desire.add(target.speed);
+				desire.add(target.speed.clone().normalize());
+			}
+
+			desire.normalize(this.speedLimit);
+
+			return desire;
+		}
+		else
+			return null;
+	}
+	/** Finds the average speed and tries to copy it */
+	getBlendInDesire(targets: Entity[]): Vector | null {
+		if (targets.length) {
+			let desire = new Vector();
+
+			for (let target of targets) {
+				desire.add(target.speed.clone().normalize());
 			}
 
 			desire.divide(targets.length).limitMagnitude(this.speedLimit);
@@ -33,7 +47,8 @@ export default class Drone extends EntityTopDown {
 			return null;
 	}
 
-	getCohesionDesire(targets: WorldObject[]): Vector | null {
+	/** Finds average position and seeks it */
+	getMediocrizationDesire(targets: WorldObject[]): Vector | null {
 		if (targets.length) {
 			let sum = new Position();
 			for (let other of targets) {
@@ -83,8 +98,6 @@ export default class Drone extends EntityTopDown {
 	applyDesire(desire: Vector | null, weight = 1.0) {
 		if (desire == null)
 			return;
-
-
 
 		var steering = desire.clone().subtract(this.speed);
 		steering.multiply(weight);
