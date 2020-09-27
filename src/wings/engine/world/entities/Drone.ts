@@ -7,6 +7,7 @@ import EntityTopDown from "./EntityTopDown";
 
 export default class Drone extends EntityTopDown {
 	private maxForce = 0.5;
+	private desire = new Vector();
 
 	constructor(sprite: Graphics, x = 0, y?: number) {
 		super(sprite, x, y);
@@ -87,11 +88,16 @@ export default class Drone extends EntityTopDown {
 		if (desire == null)
 			return;
 
-		desire = desire.clone();
 
-		var steering = desire.subtract(this.speed);
-		steering.limitMagnitude(this.maxForce * weight);
-		this.applyForce(steering);
+
+		var steering = desire.clone().subtract(this.speed);
+		steering.multiply(weight);
+		this.desire.add(steering);
+	}
+	runPhysics() {
+		this.applyForce(this.desire.limitMagnitude(this.maxForce));
+		this.desire.multiply(0);
+		super.runPhysics();
 	}
 	private canSee(target: Position, visionRange: number): boolean {
 		return this.pos.distanceSqTo(target) <= visionRange ** 2;
