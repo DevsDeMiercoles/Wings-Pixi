@@ -1,3 +1,4 @@
+import { Class } from "../../framework/core/utils";
 import notifications from "../../framework/Events";
 import Position from "../../framework/physics/Position";
 import { normalNotifications } from "../Engine";
@@ -108,5 +109,3 @@ let filters = {
 let world = new World();
 export { world };
 
-
-type Class<T> = { new(...args: any[]): T; };

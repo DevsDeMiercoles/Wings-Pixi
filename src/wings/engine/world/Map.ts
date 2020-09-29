@@ -1,5 +1,5 @@
 import FastMath from "../../framework/core/FastMath";
-import { removeFromArray } from "../../framework/core/utils";
+import { arrayRemove } from "../../framework/core/utils";
 import Position from "../../framework/physics/Position";
 import WorldObject from "./entities/WorldObject";
 
@@ -28,13 +28,13 @@ export default class Map {
 	}
 	remove(e: WorldObject) {
 		let pos = this.translateWorldToMap(e.pos);
-		this.data[pos.x][pos.y] = removeFromArray(this.data[pos.x][pos.y], e);
+		this.data[pos.x][pos.y] = arrayRemove(this.data[pos.x][pos.y], e);
 	}
 	update(e: WorldObject) {
 		let oldPos = this.translateWorldToMap(e.previousPosition);
 		let pos = this.translateWorldToMap(e.pos);
 		if (!oldPos.equals(pos)) {
-			this.data[oldPos.x][oldPos.y] = removeFromArray(this.data[oldPos.x][oldPos.y], e);
+			this.data[oldPos.x][oldPos.y] = arrayRemove(this.data[oldPos.x][oldPos.y], e);
 			this.data[pos.x][pos.y].push(e);
 		}
 	}
