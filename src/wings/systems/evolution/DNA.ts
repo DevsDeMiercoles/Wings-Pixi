@@ -20,6 +20,7 @@ export default abstract class DNA<T> {
 		let yCromosome: Gens = fatherGens.gens.slice(midpoint);
 
 		let cross: DNA<T> = new (this.constructor as any)();
+		cross.mutationRate = this.mutationRate;
 		cross.gens = xCromosome.concat(yCromosome);
 		cross.mutate();
 

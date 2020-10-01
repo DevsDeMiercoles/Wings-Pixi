@@ -1,4 +1,4 @@
-import { arrayRandom, Class } from "../../framework/core/utils";
+import { Class } from "../../framework/core/utils";
 import random from "../../framework/random/Random";
 import Creature from './Creature';
 
@@ -20,9 +20,10 @@ export abstract class Evolution<T extends Creature<any>>{
 
 	evolve() {
 		this.evaluateFitness();
-		// let survivors = this.predate();
-		let nextGen = this.reproduction(this.creatures);
-		this.creatures = nextGen;
+		this.select();
+	}
+	select() {
+		this.creatures = this.naturalSelection(this.creatures);
 	}
 	evaluateFitness(): void {
 		this.totalFitness = 0;
@@ -34,6 +35,15 @@ export abstract class Evolution<T extends Creature<any>>{
 
 		this.creatures.sort((c1, c2) => c2.fitness - c1.fitness);
 	}
+	protected naturalSelection(creatures: Array<T>): Array<T> {
+		let survivors = creatures; // this.predate(0.2);
+		let nextGen = this.mating(survivors);
+
+		//Add the best survivor
+		nextGen[0] = this.bestCreature;
+
+		return nextGen;
+	}
 	protected predate(weaknessAllowed: number): T[] {
 		let survivors = [];
 		let maxFitness = this.bestCreature.fitness;
@@ -44,21 +54,25 @@ export abstract class Evolution<T extends Creature<any>>{
 
 		return survivors;
 	}
-	protected reproduction(survivors: Array<T>): Array<T> {
+	protected mating(survivors: Array<T>, weight: number = 1): Array<T> {
 		let nextGen = new Array<T>();
-		let maxFitness = this.bestCreature.fitness;
-		nextGen.push(this.bestCreature);
-		for (let i = 1; i < this.population; i++) {
-			let mother: T;
-			let father: T;
+		let maxFitness = this.bestCreature.fitness ** weight;
+
+		for (let i = 0; i < this.population; i++) {
+			let mother: T;// = random.customSpace(matingSpace);
 			do {
-				mother = arrayRandom(survivors);
-			} while (!random.happens(mother.fitness / maxFitness));
+				mother = survivors[Math.floor(random.getUpTo(survivors.length))];
+			} while (!random.happens(mother.fitness ** weight / maxFitness));
+
+			let father: T; //= random.customSpace(matingSpace);
 
 			do {
-				father = arrayRandom(survivors);
-			} while (mother == father || !random.happens(father.fitness / maxFitness));
+				father = survivors[Math.floor(random.getUpTo(survivors.length))];
+			} while (!random.happens(father.fitness ** weight / maxFitness));
 
+			//Evolutions 33  ~  Average: 132  ~  Min: 65  ~  Max: 291  ~ Took around 2.35s  ~ Average time 2.22		Max fitness
+			//Evolutions 33  ~  Average: 137  ~  Min: 63  ~  Max: 266  ~ Took around 4.27s  ~ Average time 3.75		Weighted total
+			//Evolutions 33  ~  Average: 134  ~  Min: 79  ~  Max: 291  ~ Took around 1.82s  ~ Average time 2.25		Custom space
 			nextGen.push(this.createOffspring(mother, father));
 		}
 
