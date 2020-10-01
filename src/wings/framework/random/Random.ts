@@ -98,6 +98,20 @@ let random = {
 		} while (!this.happens(fun(x)));
 		return x;
 	},
+	customSpace<T>(space: Array<[T, number]>): T {
+		let r = random.generate();
+		let acumulated = 0;
+		for (const [val, prob] of space) {
+			acumulated += prob;
+			if (r < acumulated)
+				return val;
+		}
+		if (acumulated < 1) {
+			throw new Error(`The space is not filled, to total space acounts for ${acumulated}%`);
+		}
+		else
+			return space[0][0];
+	},
 
 	happens(chance: number): boolean {
 		return this.generate() <= chance;
