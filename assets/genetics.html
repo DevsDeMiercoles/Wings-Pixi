@@ -31,12 +31,12 @@
 		}
 
 
+		.controls {
+			margin: 10px;
+		}
+
 		#wings {
 			background: #0aafb5;
-			/* width: 100%; */
-			/* height: 100%; */
-			position: absolute;
-
 		}
 	</style>
 	<script src="main.js"></script>
@@ -48,6 +48,58 @@
 
 	<div id="wings"></div>
 
+	<div class="controls">
+		<div class="slidersContainer">
+
+			<label for="populationSlide">Population amount</label>
+			<input type="range" min="10" max="1000" value="200" class="slider" id="populationSlide"><span
+				id="populationText"></span>
+			<br>
+			<label for="mutationSlide">Mutation rate amount</label>
+			<input type="range" min="1" max="50" value="1" class="slider" id="mutationSlide"><span
+				id="mutationText"></span>
+			<br>
+			<label for="fitnessSlide">Fitness Weight</label>
+			<input type="range" min="1" max="3" value="1" class="slider" id="fitnessSlide"><span id="fitnessText"></span>
+		</div>
+		<div>
+			<input type="checkbox" id="saveBest">
+			<label for="saveBest">Best of generation survives</label>
+		</div>
+		<div>
+			<label for="target">Target text</label>
+			<input type="text" id="target" value="To be, or not to be.">
+		</div>
+
+		<div>
+			<input type="button" id="gogogo" value="Start evolution">
+		</div>
+	</div>
+	<script>
+		let slider = document.getElementById("populationSlide");
+		var textPop = document.getElementById("populationText");
+		textPop.innerHTML = slider.value;
+
+		slider.oninput = function () {
+			textPop.innerHTML = this.value;
+		}
+
+		slider = document.getElementById("mutationSlide");
+		let textMut = document.getElementById("mutationText");
+		textMut.innerHTML = slider.value;
+
+		slider.oninput = function () {
+			textMut.innerHTML = this.value;
+		}
+
+		slider = document.getElementById("fitnessSlide");
+		let textFit = document.getElementById("fitnessText");
+		textFit.innerHTML = slider.value;
+
+		slider.oninput = function () {
+			textFit.innerHTML = this.value;
+		}
+	</script>
 
 	<script defer async>
 		entradas.genetics();

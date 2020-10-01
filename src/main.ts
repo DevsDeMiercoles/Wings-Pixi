@@ -5,7 +5,7 @@ import startFlowField from "./demo/flowfield";
 import startForces from "./demo/forces";
 import startFractal from "./demo/fractal";
 import startFriction from './demo/friction';
-import startGenetics from './demo/genetics';
+import startGenetics from './demo/genetics/genetics';
 import startGravitational from './demo/gravitational';
 import startMapQuery from "./demo/mapquery";
 import startMass from "./demo/mass";
@@ -36,4 +36,4 @@ document.oncontextmenu = function (e) { e.preventDefault(); };
 	fractal: startFractal,
 	genetics: startGenetics,
 	default: startDefault
-};;
+};
