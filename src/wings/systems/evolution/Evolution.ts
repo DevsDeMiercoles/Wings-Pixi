@@ -4,17 +4,20 @@ import Creature from './Creature';
 
 export abstract class Evolution<T extends Creature<any>>{
 	protected totalFitness = 0;
-	protected population: number;
+	protected population: number = 0;
 	creatures = new Array<T>();
 	averageFitness = 0;
+	currentGeneration = 0;
 
-	constructor(population: number) {
-		this.population = population;
+	constructor() {
 	}
 
-	populate<Z extends T>(clazz: Class<Z>): void {
+	createPopulation<Z extends T>(clazz: Class<Z>, n: number): void {
+		this.population = n;
+		this.creatures.length = n;
+		this.currentGeneration = 0;
 		for (let i = 0; i < (this.population); i++) {
-			this.creatures.push(new clazz());
+			this.creatures[i] = new clazz();
 		}
 	}
 
@@ -24,6 +27,7 @@ export abstract class Evolution<T extends Creature<any>>{
 	}
 	select() {
 		this.creatures = this.naturalSelection(this.creatures);
+		this.currentGeneration++;
 	}
 	evaluateFitness(): void {
 		this.totalFitness = 0;
