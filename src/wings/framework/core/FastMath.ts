@@ -164,10 +164,19 @@ let FastMath = {
 
 
 	/**
-	 * Map transforms a (min, max) range to [starts, ends]
+	 * Map transforms a [min, maa] range to [starts, ends]
+	 * Clamps to min to max
 	 */
 	map(rate: number, min: number, max: number, starts: number, ends: number) {
 		return this.lerp((this.clamp(rate, min, max) - min) / (max - min), starts, ends);
+	},
+
+	/**
+	 * Transforms a (min, maa) range to [starts, ends]
+	 * Can overflow
+	 */
+	transform(rate: number, min: number, max: number, starts: number, ends: number) {
+		return this.lerp((rate - min) / (max - min), starts, ends);
 	}
 };
 
