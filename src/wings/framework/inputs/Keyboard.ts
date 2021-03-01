@@ -14,8 +14,10 @@ export class Keyboard {
 
 	private onKeyDown(event: KeyboardEvent) {
 		let key = event.code;
-		this.pressedKeys.addLast(key);
-		this.callback(InputEvents.KeyDown, key);
+		if (!this.pressedKeys.includes(key)) {
+			this.pressedKeys.addLast(key);
+			this.callback(InputEvents.KeyDown, key);
+		}
 	}
 	private onKeyUp(event: KeyboardEvent) {
 		let key = event.code;
