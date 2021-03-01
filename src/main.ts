@@ -6,6 +6,9 @@ import startSeeking from "./demo/ai/stearing beheaviour/seeking";
 import startSudoku from "./demo/ai/sudoku/sudoku";
 import startBunny from "./demo/bunny";
 import startFractal from "./demo/fractal";
+import startBlackjack from "./demo/games/Blackjack/Blackjack";
+import startConnectFour from "./demo/games/cuatro en linea/ConnectFour";
+import startSnake from "./demo/games/snake/Snake";
 import startMapQuery from "./demo/mapquery";
 import startDrag from './demo/physics/drag';
 import startForces from "./demo/physics/forces";
@@ -37,5 +40,8 @@ document.oncontextmenu = function (e) { e.preventDefault(); };
 	fractal: startFractal,
 	genetics: startGenetics,
 	sudoku: startSudoku,
+	blackjack: startBlackjack,
+	cuatroEnLinea: startConnectFour,
+	snake: startSnake,
 	default: startDefault
 };
