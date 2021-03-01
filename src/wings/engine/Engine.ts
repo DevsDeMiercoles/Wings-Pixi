@@ -5,19 +5,32 @@ import Loader from '../framework/loading/Loader';
 
 type Updatable = { update(): void; };
 export default class Engine {
-	private ticker: Ticker = new Ticker();
-	private entities = new Array<Updatable>();
+	readonly stage: Container = new Container();
+	readonly loader = new Loader();
+	readonly notifications = notifications;
+
 	renderer: Renderer;
-	stage: Container = new Container();
-	onUpdate: (() => void) | undefined;
-	loader = new Loader();
-	notifications = notifications;
+	onUpdate: ((elapsedMs: number) => void) | undefined;
+	fps: number = 0;
+
+	private entities = new Array<Updatable>();
+
+	// Inner game loop
+	private ticker: Ticker = new Ticker();
+	private lag: number = 0;
+	private updateMs: number;
+
+	// FPS
+	private frames: number = 0;
+	private totalTime: number = 0;
 
 	constructor(options?: iEngineOptions) {
 		let config = defaultOptions(options ?? {});
 		this.renderer = new Renderer(config);
 		(document.getElementById(options?.elementId ?? "wings") ?? document.body).appendChild(this.renderer.view);
 
+
+		this.updateMs = config.msPerUpdate!;
 		this.centerApp();
 		window.addEventListener('resize', this.centerApp.bind(this));
 
@@ -25,6 +38,8 @@ export default class Engine {
 		notifications.addNotificationListener(normalNotifications.updateMe, this.updateEntity.bind(this));
 
 		this.stage.hitArea = new Rectangle(0, 0, config.width, config.height);
+
+
 		this.ticker.add(this.tick.bind(this));
 		this.ticker.start();
 	}
@@ -35,12 +50,34 @@ export default class Engine {
 		this.renderer.view.style.top = ((window.innerHeight - this.renderer.view.height) >> 1) + 'px';
 	}
 
+
 	private tick() {
-		this.onUpdate?.();
-		for (const e of this.entities) {
-			e.update();
+		let frameTime = this.ticker.elapsedMS;
+		if (frameTime > 250) // Limit steps for debug
+			frameTime = 250;
+
+		this.lag += frameTime;
+		while (this.lag >= this.updateMs) {
+			this.onUpdate?.(this.updateMs);
+			for (const e of this.entities) {
+				e.update();
+			}
+			this.lag -= this.updateMs;
 		}
+
+		// let alpha = this.lag / this.updateMs;
+		// sceneManager.runRender(alpha);
 		this.renderer.render(this.stage);
+
+		this.frames++;
+		this.totalTime += frameTime;
+		if (this.totalTime >= 1000) {
+			this.totalTime -= 1000;
+
+			this.fps = this.frames;
+			this.frames = 0;
+		}
+
 	}
 
 	private addToStage(displayObject: DisplayObject) {
@@ -75,6 +112,7 @@ export interface iEngineOptions {
 	backgroundColor?: number;
 	powerPreference?: string;
 	elementId?: string;
+	msPerUpdate?: number;
 }
 
 function defaultOptions(options: iEngineOptions): iEngineOptions {
@@ -82,29 +120,6 @@ function defaultOptions(options: iEngineOptions): iEngineOptions {
 	options.height = options.height ?? 480;
 	options.backgroundColor = options.backgroundColor ?? 0x828282;
 	options.antialias = options.antialias ?? true;
+	options.msPerUpdate = options.msPerUpdate ?? 25;
 	return options;
 }
-
-// let renderer;
-// let stage;
-// let sceneManager;
-
-// export function start(scene, options) {
-// 	stage = new PIXI.Container();
-// 	options = Object.assign({ forceCanvas: false, }, options);
-
-// 	renderer = PIXI.autoDetectRenderer(options);
-
-// 	// this.sceneManager = new SceneManager(scene, this.stage);
-
-// 	let container = document.getElementById(options?.containerId) ?? document.body;
-// 	container.appendChild(renderer.view);
-
-// 	this.tick();
-// }
-
-
-// function tick() { 
-
-// 	requestAnimationFrame(this.tick);
-// }

@@ -1,12 +1,12 @@
 import { Graphics } from "pixi.js";
-import Engine from '../wings/engine/Engine';
-import Drone from "../wings/engine/world/entities/Drone";
-import WorldObject from "../wings/engine/world/entities/WorldObject";
-import { world } from "../wings/engine/world/World";
-import FastMath from "../wings/framework/core/FastMath";
-import Controller from "../wings/framework/inputs/Controller";
-import Vector from "../wings/framework/physics/Vector";
-import random from "../wings/framework/random/Random";
+import Engine from '../../../wings/engine/Engine';
+import Drone from "../../../wings/engine/world/entities/Drone";
+import WorldObject from "../../../wings/engine/world/entities/WorldObject";
+import { world } from "../../../wings/engine/world/World";
+import FastMath from "../../../wings/framework/core/FastMath";
+import Controller from "../../../wings/framework/inputs/Controller";
+import Vector from "../../../wings/framework/physics/Vector";
+import random from "../../../wings/framework/random/Random";
 
 let width = 720;
 let height = 480;

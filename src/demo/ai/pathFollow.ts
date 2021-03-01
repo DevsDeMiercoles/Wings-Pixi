@@ -1,13 +1,13 @@
 import { Graphics, Point } from "pixi.js";
-import Engine, { normalNotifications } from '../wings/engine/Engine';
-import Drone from "../wings/engine/world/entities/Drone";
-import { world } from "../wings/engine/world/World";
-import FastMath from "../wings/framework/core/FastMath";
-import notifications from "../wings/framework/Events";
-import Controller from "../wings/framework/inputs/Controller";
-import { MouseKeys } from "../wings/framework/inputs/Mouse";
-import Position from "../wings/framework/physics/Position";
-import random from "../wings/framework/random/Random";
+import Engine, { normalNotifications } from '../../wings/engine/Engine';
+import Drone from "../../wings/engine/world/entities/Drone";
+import { world } from "../../wings/engine/world/World";
+import FastMath from "../../wings/framework/core/FastMath";
+import notifications from "../../wings/framework/Events";
+import Controller from "../../wings/framework/inputs/Controller";
+import { MouseKeys } from "../../wings/framework/inputs/Mouse";
+import Position from "../../wings/framework/physics/Position";
+import random from "../../wings/framework/random/Random";
 
 let width = 720;
 let height = 480;

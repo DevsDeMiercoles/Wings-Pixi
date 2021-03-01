@@ -1,9 +1,9 @@
 import { Graphics, Point } from "pixi.js";
-import Engine from '../wings/engine/Engine';
-import Drone from "../wings/engine/world/entities/Drone";
-import WorldObject from "../wings/engine/world/entities/WorldObject";
-import Controller from "../wings/framework/inputs/Controller";
-import random from "../wings/framework/random/Random";
+import Engine from '../../../wings/engine/Engine';
+import Drone from "../../../wings/engine/world/entities/Drone";
+import WorldObject from "../../../wings/engine/world/entities/WorldObject";
+import Controller from "../../../wings/framework/inputs/Controller";
+import random from "../../../wings/framework/random/Random";
 
 let width = 720;
 let height = 480;

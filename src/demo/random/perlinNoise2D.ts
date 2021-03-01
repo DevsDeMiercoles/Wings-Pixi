@@ -1,8 +1,8 @@
 import { Graphics } from "pixi.js";
-import Engine from "../wings/engine/Engine";
-import colors from '../wings/framework/core/colors';
-import watcher from "../wings/framework/debug";
-import random from "../wings/framework/random/Random";
+import Engine from "../../wings/engine/Engine";
+import colors from '../../wings/framework/core/colors';
+import watcher from "../../wings/framework/debug";
+import random from "../../wings/framework/random/Random";
 
 let width = 720;
 let height = 480;

@@ -1,10 +1,10 @@
 import { Graphics } from 'pixi.js';
-import Engine from '../wings/engine/Engine';
-import FastMath from '../wings/framework/core/FastMath';
-import Controller, { InputEvents } from "../wings/framework/inputs/Controller";
-import { MouseKeys } from "../wings/framework/inputs/Mouse";
-import { Coordinates } from '../wings/framework/physics/Position';
-import random from '../wings/framework/random/Random';
+import Engine from '../../../wings/engine/Engine';
+import FastMath from '../../../wings/framework/core/FastMath';
+import Controller, { InputEvents } from "../../../wings/framework/inputs/Controller";
+import { MouseKeys } from "../../../wings/framework/inputs/Mouse";
+import { Coordinates } from '../../../wings/framework/physics/Position';
+import random from '../../../wings/framework/random/Random';
 
 let width = 720;
 let height = 480;

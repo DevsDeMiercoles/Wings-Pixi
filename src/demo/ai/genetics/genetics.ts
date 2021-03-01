@@ -1,8 +1,8 @@
-import Engine from '../../wings/engine/Engine';
-import Controller from "../../wings/framework/inputs/Controller";
-import random from "../../wings/framework/random/Random";
-import { StringDNA } from "../../wings/systems/evolution/DNA";
-import { Evolution } from "../../wings/systems/evolution/Evolution";
+import Engine from '../../../wings/engine/Engine';
+import Controller from "../../../wings/framework/inputs/Controller";
+import random from "../../../wings/framework/random/Random";
+import { StringDNA } from "../../../wings/systems/evolution/DNA";
+import { Evolution } from "../../../wings/systems/evolution/Evolution";
 import * as controles from './controles';
 
 let width = 720;

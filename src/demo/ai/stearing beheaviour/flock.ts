@@ -1,11 +1,11 @@
 import { Graphics, Point } from "pixi.js";
-import Engine from '../wings/engine/Engine';
-import Drone from "../wings/engine/world/entities/Drone";
-import { world } from "../wings/engine/world/World";
-import watcher from "../wings/framework/debug";
-import Controller from "../wings/framework/inputs/Controller";
-import { MouseKeys } from "../wings/framework/inputs/Mouse";
-import random from "../wings/framework/random/Random";
+import Engine from '../../../wings/engine/Engine';
+import Drone from "../../../wings/engine/world/entities/Drone";
+import { world } from "../../../wings/engine/world/World";
+import watcher from "../../../wings/framework/debug";
+import Controller from "../../../wings/framework/inputs/Controller";
+import { MouseKeys } from "../../../wings/framework/inputs/Mouse";
+import random from "../../../wings/framework/random/Random";
 
 let width = 720;
 let height = 480;

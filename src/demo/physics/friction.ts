@@ -1,54 +1,47 @@
-import { Circle, Graphics } from 'pixi.js';
-import Engine, { normalNotifications } from '../wings/engine/Engine';
-import EntityPlatformer from '../wings/engine/world/entities/EntityPlatformer';
-import colors from '../wings/framework/core/colors';
-import FastMath from "../wings/framework/core/FastMath";
-import watcher from '../wings/framework/debug';
-import notifications from "../wings/framework/Events";
-import Controller from '../wings/framework/inputs/Controller';
-import { MouseKeys } from '../wings/framework/inputs/Mouse';
-import Vector from "../wings/framework/physics/Vector";
-import random from "../wings/framework/random/Random";
-import SpriteMemory from "../wings/framework/SpriteMemory";
+import { Circle, Graphics } from "pixi.js";
+import Engine, { normalNotifications } from '../../wings/engine/Engine';
+import EntityPlatformer from '../../wings/engine/world/entities/EntityPlatformer';
+import FastMath from "../../wings/framework/core/FastMath";
+import watcher from '../../wings/framework/debug';
+import notifications from "../../wings/framework/Events";
+import Controller from '../../wings/framework/inputs/Controller';
+import { MouseKeys } from '../../wings/framework/inputs/Mouse';
+import Vector from "../../wings/framework/physics/Vector";
+import random from "../../wings/framework/random/Random";
+import SpriteMemory from "../../wings/framework/SpriteMemory";
 
-let width = 320;
-let height = 640;
+let width = 640;
+let height = 320;
 let engine: Engine;
 let controller: Controller;
-export default function startDrag() {
-	engine = new Engine({ width, height, backgroundColor: 0 });
+export default function startFriction() {
+	engine = new Engine({ width, height });
 	controller = new Controller(engine.stage);
 
 	let ws = new Array<BasicWalker>();
-	ws.push(new Walker(random.range(36, width - 36), 60, 25));
+	// ws.push(new Walker(random.range(36, width - 36), 60, 25));
 	for (let i = 0; i < 1; i++) {
-		let w = new BasicWalker(random.normalDistribution() * width, 60, 100);
+		let w = new BasicWalker(random.normalDistribution() * width, random.normalDistribution() * height, 100);
 		ws.push(w);
 	}
 
-	let gravity = new Vector(0, 10);
-	let density = 1;
+	let friction = 0.01;
 	watcher.watch({
-		get density() { return density; },
-		set density(x) { density = x; }
+		get friction() { return friction; },
+		set friction(x) { friction = x; },
 	});
-
-	let liquid = new Graphics();
-	engine.stage.addChild(liquid);
-	liquid.beginFill(colors.rgb(0.5));
-	liquid.drawRect(0, height / 2, width, height);
-	liquid.endFill();
 
 	engine.onUpdate = () => {
 		if (controller.isKeyDown(MouseKeys.LEFT))
-			ws.push(new BasicWalker(random.normalDistribution() * width, 60, random.range(5, 50)));
+			ws.push(new BasicWalker(random.normalDistribution() * width, random.normalDistribution() * height, random.range(5, 50)));
 		for (const w of ws) {
-			w.applyGravity(gravity);
-			if (controller.isKeyDown(MouseKeys.RIGHT))
-				w.pos.y = 60;
+			if (controller.isKeyDown(MouseKeys.RIGHT)) {
+				w.pos.set(width / 2, height / 2);
+				w.applyForce(Vector.fromPolar(random.angle(), 20));
+			}
 
-			if (w.pos.y + w.body.radius > height / 2)
-				w.applyDrag(density);
+			w.applyFriction(friction);
+			w.applyFriction(friction);
 		}
 	};
 }
@@ -69,7 +62,7 @@ class BasicWalker extends EntityPlatformer {
 	protected draw() {
 		let g = this.sprite as Graphics;
 		g.lineStyle(2, 0x0);
-		g.beginFill(0xe0e0e0);
+		g.beginFill(0xe0e0e0, 0.5);
 		g.drawCircle(0, 0, this.body.radius);
 		g.endFill();
 	}
@@ -81,10 +74,7 @@ class BasicWalker extends EntityPlatformer {
 	}
 
 	process() {
-		// this.pos.wrap(0, width, 0, height);
-		this.reboundX(0, width);
-		this.reboundYOn(0, -1);
-		this.stopAtBottom(height);
+		this.reboundScreen(width, height);
 	}
 	stopAtBottom(height: number) {
 		let penetration = this.pos.y - height + this.body.radius;
@@ -122,7 +112,7 @@ class BasicWalker extends EntityPlatformer {
 		}
 	}
 }
-class Walker extends BasicWalker {
+export class Walker extends BasicWalker {
 	private memory: SpriteMemory;
 
 	constructor(x: number, y: number, mass: number) {

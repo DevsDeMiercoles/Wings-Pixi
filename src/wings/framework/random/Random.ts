@@ -98,6 +98,11 @@ let random = {
 		} while (!this.happens(fun(x)));
 		return x;
 	},
+
+	/**
+	 * A space is a a set of elements with a custom probability each.
+	 * It returns an element from that space acording to this probabilities
+	 */
 	customSpace<T>(space: Array<[T, number]>): T {
 		let r = random.generate();
 		let acumulated = 0;

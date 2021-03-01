@@ -1,19 +1,20 @@
+import startGenetics from './demo/ai/genetics/genetics';
+import startPathFollow from "./demo/ai/pathFollow";
+import startFlock from "./demo/ai/stearing beheaviour/flock";
+import startFlowField from "./demo/ai/stearing beheaviour/flowfield";
+import startSeeking from "./demo/ai/stearing beheaviour/seeking";
+import startSudoku from "./demo/ai/sudoku/sudoku";
 import startBunny from "./demo/bunny";
-import startDrag from './demo/drag';
-import startFlock from "./demo/flock";
-import startFlowField from "./demo/flowfield";
-import startForces from "./demo/forces";
 import startFractal from "./demo/fractal";
-import startFriction from './demo/friction';
-import startGenetics from './demo/genetics/genetics';
-import startGravitational from './demo/gravitational';
 import startMapQuery from "./demo/mapquery";
-import startMass from "./demo/mass";
-import startPathFollow from "./demo/pathFollow";
-import startPerlinNoise1D from "./demo/perlinNoise1D";
-import startPerlinNoise2D from "./demo/perlinNoise2D";
-import startWalker from "./demo/randomWalker";
-import startSeeking from "./demo/seeking";
+import startDrag from './demo/physics/drag';
+import startForces from "./demo/physics/forces";
+import startFriction from './demo/physics/friction';
+import startGravitational from './demo/physics/gravitational';
+import startMass from "./demo/physics/mass";
+import startPerlinNoise1D from "./demo/random/perlinNoise1D";
+import startPerlinNoise2D from "./demo/random/perlinNoise2D";
+import startWalker from "./demo/random/randomWalker";
 import startDefault from "./demo/test";
 
 document.oncontextmenu = function (e) { e.preventDefault(); };
@@ -35,5 +36,6 @@ document.oncontextmenu = function (e) { e.preventDefault(); };
 	flock: startFlock,
 	fractal: startFractal,
 	genetics: startGenetics,
+	sudoku: startSudoku,
 	default: startDefault
 };

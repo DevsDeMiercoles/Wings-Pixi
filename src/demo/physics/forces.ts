@@ -1,12 +1,12 @@
 import { Graphics } from "pixi.js";
-import Engine, { normalNotifications } from '../wings/engine/Engine';
-import EntityPlatformer from '../wings/engine/world/entities/EntityPlatformer';
-import EntityTopDown from '../wings/engine/world/entities/EntityTopDown';
-import notifications from "../wings/framework/Events";
-import { MouseEvents } from "../wings/framework/inputs/Mouse";
-import Vector from "../wings/framework/physics/Vector";
-import random from "../wings/framework/random/Random";
-import SpriteMemory from "../wings/framework/SpriteMemory";
+import Engine, { normalNotifications } from '../../wings/engine/Engine';
+import EntityPlatformer from '../../wings/engine/world/entities/EntityPlatformer';
+import EntityTopDown from '../../wings/engine/world/entities/EntityTopDown';
+import notifications from "../../wings/framework/Events";
+import { MouseEvents } from "../../wings/framework/inputs/Mouse";
+import Vector from "../../wings/framework/physics/Vector";
+import random from "../../wings/framework/random/Random";
+import SpriteMemory from "../../wings/framework/SpriteMemory";
 
 let width = 640;
 let height = 320;

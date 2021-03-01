@@ -3,7 +3,7 @@ Unify Controller and GUI
 Selection Area: http://i.imgur.com/PrlGKEm.jpg
 Selection Core area: takes priority over other areas. This allow selection area to be really big, to help controllers, but precise at the same time by using priority of smaller areas.
 
-Selection area does not change the current selection. Selection area does change the current selection.
+Selection area does not change the current selection.
 
 ----
 Random

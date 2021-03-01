@@ -1,9 +1,9 @@
 import { Graphics } from "pixi.js";
-import Engine from '../wings/engine/Engine';
-import FastMath from '../wings/framework/core/FastMath';
-import Position from '../wings/framework/physics/Position';
-import Vector from '../wings/framework/physics/Vector';
-import random from '../wings/framework/random/Random';
+import Engine from '../../wings/engine/Engine';
+import FastMath from '../../wings/framework/core/FastMath';
+import Position from '../../wings/framework/physics/Position';
+import Vector from '../../wings/framework/physics/Vector';
+import random from '../../wings/framework/random/Random';
 
 let width = 640;
 let height = 320;

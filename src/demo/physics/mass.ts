@@ -1,14 +1,14 @@
 import { Circle, Graphics } from "pixi.js";
-import Engine, { normalNotifications } from '../wings/engine/Engine';
-import EntityPlatformer from '../wings/engine/world/entities/EntityPlatformer';
-import FastMath from "../wings/framework/core/FastMath";
-import watcher from '../wings/framework/debug';
-import notifications from "../wings/framework/Events";
-import Controller from '../wings/framework/inputs/Controller';
-import { MouseKeys } from '../wings/framework/inputs/Mouse';
-import Vector from "../wings/framework/physics/Vector";
-import random from "../wings/framework/random/Random";
-import SpriteMemory from "../wings/framework/SpriteMemory";
+import Engine, { normalNotifications } from '../../wings/engine/Engine';
+import EntityPlatformer from '../../wings/engine/world/entities/EntityPlatformer';
+import FastMath from "../../wings/framework/core/FastMath";
+import watcher from '../../wings/framework/debug';
+import notifications from "../../wings/framework/Events";
+import Controller from '../../wings/framework/inputs/Controller';
+import { MouseKeys } from '../../wings/framework/inputs/Mouse';
+import Vector from "../../wings/framework/physics/Vector";
+import random from "../../wings/framework/random/Random";
+import SpriteMemory from "../../wings/framework/SpriteMemory";
 
 let width = 640;
 let height = 320;
