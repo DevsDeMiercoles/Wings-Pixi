@@ -24,7 +24,6 @@ export default class TurnsBased {
 
 	public addPlayer(playerTurn: PlayerTurn) {
 		this.players.push(playerTurn);
-		playerTurn.setTurnBase(this);
 	}
 
 	public addPlayers(...playersToAdd: PlayerTurn[]) {
