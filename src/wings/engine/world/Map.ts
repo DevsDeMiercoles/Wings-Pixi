@@ -37,6 +37,7 @@ export default class Map {
 			this.data[oldPos.x][oldPos.y] = arrayRemove(this.data[oldPos.x][oldPos.y], e);
 			this.data[pos.x][pos.y].push(e);
 		}
+		e.previousPosition.copyFrom(e.pos);
 	}
 	getCellAtPos(pos: Position): Array<WorldObject> {
 		let origin = this.translateWorldToMap(pos);

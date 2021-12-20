@@ -24,16 +24,16 @@ export default function startFlowField() {
 	let yMax = Math.ceil(height / cellSize);
 	world.createMap(cellSize, { x: xMax, y: yMax });
 
-
+	let noise = 0.045;
 	let offsetX = 0;
 	for (let x = 0; x < xMax; x++) {
 		let offsetY = 0;
 		for (let y = 0; y < yMax; y++) {
 			let flow = Vector.fromPolar(random.noiseSmooth(offsetX, offsetY) * FastMath.angle360 * 2, 10);
 			new Cell(x * cellSize + cellSize / 2, y * cellSize + cellSize / 2, flow);
-			offsetY += 0.033;
+			offsetY += noise;
 		}
-		offsetX += 0.033;
+		offsetX += noise;
 	}
 
 	for (let i = 0; i < 100; i++) {
