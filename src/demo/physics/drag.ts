@@ -64,7 +64,7 @@ class BasicWalker extends EntityPlatformer {
 		this.body.radius = Math.sqrt(this.mass / FastMath.PI) * 10;
 
 		this.draw();
-		this.speed.polar(random.angle(), random.range(10, 50));
+		this.speed.polar(random.angle(), random.range(10, 20));
 	}
 	protected draw() {
 		let g = this.sprite as Graphics;

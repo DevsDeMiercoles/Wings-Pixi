@@ -7,7 +7,6 @@ type Updatable = { update(): void; };
 export default class Engine {
 	readonly stage: Container = new Container();
 	readonly loader = new Loader();
-	readonly notifications = notifications;
 
 	renderer: Renderer;
 	onUpdate: ((elapsedMs: number) => void) | undefined;
@@ -42,6 +41,7 @@ export default class Engine {
 
 		this.ticker.add(this.tick.bind(this));
 		this.ticker.start();
+		engine = this;
 	}
 
 	private centerApp() {
@@ -123,3 +123,5 @@ function defaultOptions(options: iEngineOptions): iEngineOptions {
 	options.msPerUpdate = options.msPerUpdate ?? 25;
 	return options;
 }
+
+export var engine: Engine;

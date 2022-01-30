@@ -1,6 +1,6 @@
 
 .. Graphics & Event handling ..
-Black Jack		Click an element, Memory, Turns (disable playing)											Multi turns(>2 players)
+Black Jack		Click an element, Memory, Turns (disable playing)											Multi turns(>2 players) - Beting system
 Connect Four	Zone Clicks, Data structure, Search terrain												  	Dynamic terrain size
 
 
